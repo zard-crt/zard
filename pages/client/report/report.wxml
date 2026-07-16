@@ -1,5 +1,5 @@
-<!-- report.wxml -->
-<view class="page">
+<!-- report.wxml v2 - 报告页 -->
+<view class="page page-enter">
   <!-- Status bar spacer -->
   <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
   
@@ -8,10 +8,11 @@
     <text class="page-title">诊断报告</text>
   </view>
   
-  <!-- Company Info Card -->
-  <view class="company-card">
+  <!-- Company Info Card - Glass card with gradient accent -->
+  <view class="company-card glass card-lift">
+    <view class="company-accent"></view>
     <view class="company-row">
-      <view class="company-logo" style="background-color: {{company.color}};">
+      <view class="company-logo" style="background: linear-gradient(135deg, {{company.color}}, {{company.colorLight}});">
         <text class="company-logo-text">{{company.logoText}}</text>
       </view>
       <view class="company-details">
@@ -19,16 +20,31 @@
         <text class="company-date">{{company.date}} · {{company.status}}</text>
       </view>
     </view>
-    <view class="company-score">
-      <text class="score-number">{{company.impactScore}}</text>
-      <text class="score-label">影响评分</text>
+    <view class="company-score-row">
+      <view class="company-score">
+        <!-- Donut indicator for impact score -->
+        <view class="donut-wrap">
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <circle cx="24" cy="24" r="20" stroke="#F0F0F2" stroke-width="4" fill="none"/>
+            <circle cx="24" cy="24" r="20" stroke="#0071E3" stroke-width="4" fill="none" stroke-linecap="round"
+              stroke-dasharray="125.6" stroke-dashoffset="{{125.6 - 125.6 * company.impactScore / 5}}"
+              transform="rotate(-90 24 24)"
+              style="transition: stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);"/>
+          </svg>
+        </view>
+        <view class="score-info">
+          <text class="score-number count-number">{{company.impactScore}}</text>
+          <text class="score-label">影响评分</text>
+          <text class="score-max">/ 5.0</text>
+        </view>
+      </view>
     </view>
   </view>
   
   <!-- Heatmap Matrix Section -->
   <view class="section">
     <text class="section-title">团队反馈总览</text>
-    <view class="heatmap-card">
+    <view class="heatmap-card card-lift">
       <view class="heatmap-grid">
         <!-- Header row -->
         <view class="heatmap-row heatmap-header">
@@ -43,10 +59,25 @@
             <text class="heatmap-label-text">{{row.name}}</text>
           </view>
           <view class="heatmap-cell" wx:for="{{row.values}}" wx:for-item="val" wx:for-index="colIdx" wx:key="index" bindtap="onHeatmapCell" data-row="{{rowIdx}}" data-col="{{colIdx}}">
-            <view class="heatmap-dot heatmap-dot-{{val.severity > 3 ? 'high' : val.severity > 1 ? 'medium' : 'low'}}" style="opacity: {{0.3 + val.severity * 0.18}};">
+            <view class="heatmap-dot heatmap-dot-level-{{val.severity}}" style="animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: {{(rowIdx * 4 + colIdx) * 60}}ms;">
               <text class="heatmap-dot-text">{{val.severity}}</text>
             </view>
           </view>
+        </view>
+      </view>
+      <!-- Heatmap legend -->
+      <view class="heatmap-legend">
+        <view class="legend-item">
+          <view class="legend-dot" style="background: #34C759;"></view>
+          <text class="legend-text">低</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot" style="background: #FF9500;"></view>
+          <text class="legend-text">中</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot" style="background: #FF3B30;"></view>
+          <text class="legend-text">高</text>
         </view>
       </view>
     </view>
@@ -56,8 +87,7 @@
   <view class="section">
     <text class="section-title">关键发现</text>
     <view class="findings-list">
-      <!-- Most concentrated department -->
-      <view class="finding-card">
+      <view class="finding-card stagger-item">
         <view class="finding-icon finding-icon-purple">
           <svg viewBox="0 0 24 24" width="22" height="22">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#AF52DE" stroke-width="2" fill="none" stroke-linecap="round"/>
@@ -73,8 +103,7 @@
         </view>
       </view>
       
-      <!-- Most common issue -->
-      <view class="finding-card">
+      <view class="finding-card stagger-item">
         <view class="finding-icon finding-icon-orange">
           <svg viewBox="0 0 24 24" width="22" height="22">
             <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#FF9500" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -89,8 +118,7 @@
         </view>
       </view>
       
-      <!-- Average impact score -->
-      <view class="finding-card">
+      <view class="finding-card stagger-item">
         <view class="finding-icon finding-icon-blue">
           <svg viewBox="0 0 24 24" width="22" height="22">
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="#0071E3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -110,4 +138,4 @@
 </view>
 
 <!-- Tab bar component -->
-<tab-bar type="client" active="2" bind:tap="onTabTap"></tab-bar>
+<tab-bar type="client" active="0" bind:tap="onTabTap"></tab-bar>

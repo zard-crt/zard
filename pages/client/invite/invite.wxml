@@ -1,13 +1,13 @@
-<!-- invite.wxml -->
-<view class="page">
+<!-- invite.wxml v2 - 邀请页 -->
+<view class="page page-enter">
   <!-- Status bar spacer -->
   <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
   
   <!-- Nav bar -->
-  <view class="nav-bar">
-    <view class="nav-back" bindtap="onBack">
+  <view class="nav-bar glass-strong">
+    <view class="nav-back press-scale" bindtap="onBack">
       <svg viewBox="0 0 24 24" width="24" height="24">
-        <path d="M15 18l-6-6 6-6" stroke="#0071E3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 18l-6-6 6-6" stroke="#0071E3" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </view>
     <text class="nav-title">邀请成员</text>
@@ -15,9 +15,9 @@
   </view>
   
   <!-- Project Card -->
-  <view class="project-card">
+  <view class="project-card card-lift">
     <view class="project-row">
-      <view class="project-logo" style="background-color: {{project.color}};">
+      <view class="project-logo" style="background: linear-gradient(135deg, {{project.color}}, {{project.colorLight}});">
         <text class="project-logo-text">{{project.logoText}}</text>
       </view>
       <view class="project-details">
@@ -31,9 +31,9 @@
   <view class="section">
     <text class="section-title">推荐邀请</text>
     <view class="member-list">
-      <view class="member-card" wx:for="{{recommendMembers}}" wx:for-item="member" wx:key="index">
+      <view class="member-card stagger-item" wx:for="{{recommendMembers}}" wx:for-item="member" wx:key="index">
         <view class="member-card-left">
-          <view class="member-avatar" style="background-color: {{member.color}};">
+          <view class="member-avatar" style="background: linear-gradient(135deg, {{member.color1}}, {{member.color2}});">
             <text class="member-avatar-text">{{member.initials}}</text>
           </view>
           <view class="member-details">
@@ -41,7 +41,7 @@
             <text class="member-role">{{member.role}} · {{member.department}}</text>
           </view>
         </view>
-        <view class="invite-action {{member.invited ? 'invited' : ''}}" bindtap="onInviteMember" data-id="{{member.id}}">
+        <view class="invite-action {{member.invited ? 'invited' : ''}} press-scale" bindtap="onInviteMember" data-id="{{member.id}}">
           <text class="invite-action-text">{{member.invited ? '已邀请' : '邀请'}}</text>
         </view>
       </view>
@@ -52,7 +52,7 @@
   <view class="section">
     <text class="section-title">分享邀请</text>
     <view class="share-options">
-      <view class="share-btn" bindtap="onShareWechat">
+      <view class="share-btn card-lift" bindtap="onShareWechat">
         <view class="share-icon wechat-icon">
           <svg viewBox="0 0 24 24" width="24" height="24">
             <path d="M9 4C5.5 4 2.5 6.5 2.5 9.5c0 1.7.9 3.2 2.3 4.2l-.7 2.1 2.4-1.2c.7.2 1.4.3 2.1.3.3 0 .6 0 .9-.1" stroke="#34C759" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,8 +60,9 @@
           </svg>
         </view>
         <text class="share-label">分享给微信好友</text>
+        <text class="share-desc">一键分享邀请链接</text>
       </view>
-      <view class="share-btn" bindtap="onGenerateCode">
+      <view class="share-btn card-lift" bindtap="onGenerateCode">
         <view class="share-icon code-icon">
           <svg viewBox="0 0 24 24" width="24" height="24">
             <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#0071E3" stroke-width="1.8" fill="none"/>
@@ -71,25 +72,52 @@
           </svg>
         </view>
         <text class="share-label">生成邀请码</text>
+        <text class="share-desc">发送给同事扫码加入</text>
       </view>
     </view>
   </view>
   
-  <!-- Current Invited Members -->
+  <!-- Invite Code Modal (shown on demand) -->
+  <view wx:if="{{showCodeModal}}" class="modal-overlay" bindtap="onCloseModal">
+    <view class="modal-content glass-strong" catchtap="noop">
+      <view class="modal-handle"></view>
+      <text class="modal-title">邀请码</text>
+      <view class="code-display">
+        <text class="code-text">{{inviteCode}}</text>
+      </view>
+      <text class="modal-desc">将此邀请码分享给团队成员，他们可以在应用内输入加入</text>
+      <view class="copy-btn btn btn-primary press-scale" bindtap="onCopyCode">
+        <svg viewBox="0 0 20 20" width="16" height="16">
+          <rect x="6" y="2" width="12" height="14" rx="2" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
+          <path d="M2 6v10a2 2 0 0 0 2 2h10" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
+        </svg>
+        <text class="copy-btn-text">复制邀请码</text>
+      </view>
+      <view class="modal-close press-scale" bindtap="onCloseModal">
+        <text class="modal-close-text">关闭</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- Current Invited Members - Timeline style -->
   <view class="section">
     <text class="section-title">已邀请成员 ({{invitedMembers.length}})</text>
     <view wx:if="{{invitedMembers.length > 0}}" class="invited-list">
-      <view class="invited-item" wx:for="{{invitedMembers}}" wx:for-item="member" wx:key="index">
+      <view class="invited-item stagger-item" wx:for="{{invitedMembers}}" wx:for-item="member" wx:key="index">
+        <view class="timeline-dot"></view>
         <view class="invited-left">
-          <view class="invited-avatar" style="background-color: {{member.color}};">
+          <view class="invited-avatar" style="background: linear-gradient(135deg, {{member.color1}}, {{member.color2}});">
             <text class="invited-avatar-text">{{member.initials}}</text>
           </view>
           <view class="invited-details">
             <text class="invited-name">{{member.name}}</text>
-            <text class="invited-time">{{member.invitedTime}}</text>
+            <text class="invited-time">{{member.role}} · {{member.invitedTime}}</text>
           </view>
         </view>
-        <text class="invited-status">已邀请</text>
+        <view class="invited-status-tag">
+          <text class="status-emoji">✅</text>
+          <text class="invited-status-text">已邀请</text>
+        </view>
       </view>
     </view>
     <view wx:else class="empty-invited">

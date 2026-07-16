@@ -1,4 +1,4 @@
-/* team.wxss */
+/* team.wxss v2 - 团队页 */
 .page {
   min-height: 100vh;
   background-color: #F5F5F7;
@@ -10,6 +10,7 @@
   width: 100%;
 }
 
+/* ========== Title ========== */
 .title-section {
   padding: 16px 0 4px;
 }
@@ -20,8 +21,10 @@
   color: #1D1D1F;
   display: block;
   line-height: 1.3;
+  animation: slideUp 0.4s cubic-bezier(0.0, 0.0, 0.2, 1) both;
 }
 
+/* ========== Section ========== */
 .section {
   padding: 12px 0;
 }
@@ -41,12 +44,12 @@
   margin-bottom: 12px;
 }
 
-/* Progress Card */
+/* ========== Progress Card ========== */
 .progress-card {
   background-color: #FFFFFF;
   border-radius: 14px;
   padding: 14px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .progress-card-header {
@@ -62,10 +65,19 @@
   color: #1D1D1F;
 }
 
+/* Status Tag with Emoji */
 .status-tag {
+  display: flex;
+  align-items: center;
+  gap: 3px;
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 11px;
+  flex-shrink: 0;
+}
+
+.status-emoji {
+  font-size: 10px;
 }
 
 .status-text {
@@ -76,29 +88,66 @@
 .status-active {
   background-color: #E8F5E9;
 }
-.status-active .status-text {
-  color: #2E7D32;
-}
+.status-active .status-emoji { color: #2E7D32; }
+.status-active .status-text { color: #2E7D32; }
 
 .status-pending {
   background-color: #FFF3E0;
 }
-.status-pending .status-text {
-  color: #E65100;
-}
+.status-pending .status-emoji { color: #E65100; }
+.status-pending .status-text { color: #E65100; }
 
 .status-completed {
   background-color: #E3F2FD;
 }
-.status-completed .status-text {
-  color: #0071E3;
-}
+.status-completed .status-emoji { color: #0071E3; }
+.status-completed .status-text { color: #0071E3; }
 
-.progress-stats {
+/* ========== Circular Progress ========== */
+.circular-progress-row {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  gap: 20px;
   margin-bottom: 14px;
+}
+
+.circular-wrap {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.circular-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.circular-inner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circular-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1D1D1F;
+}
+
+.circular-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
 }
 
 .stat-item {
@@ -106,10 +155,11 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  flex: 1;
 }
 
 .stat-number {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   color: #1D1D1F;
 }
@@ -121,7 +171,7 @@
 
 .stat-divider {
   width: 1px;
-  height: 32px;
+  height: 36px;
   background-color: #F0F0F2;
 }
 
@@ -130,19 +180,20 @@
 }
 
 .progress-bar-bg {
-  height: 6px;
+  height: 4px;
   background-color: #F0F0F2;
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #0071E3, #4A9EFF);
-  border-radius: 3px;
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Member List */
+/* ========== Member List ========== */
 .member-list {
   display: flex;
   flex-direction: column;
@@ -156,7 +207,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.member-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 .member-card-left {
@@ -173,6 +230,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .member-avatar-text {
@@ -208,49 +267,31 @@
   flex-shrink: 0;
 }
 
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
 /* Status variants */
 .status-done {
   background-color: #E8F5E9;
 }
-.status-done .status-dot {
-  background-color: #34C759;
-}
-.status-done .member-status-text {
-  color: #2E7D32;
-}
+.status-done .status-emoji { font-size: 11px; }
+.status-done .member-status-text { color: #2E7D32; }
 
 .status-pending {
   background-color: #FFF3E0;
 }
-.status-pending .status-dot {
-  background-color: #FF9500;
-}
-.status-pending .member-status-text {
-  color: #E65100;
-}
+.status-pending .status-emoji { font-size: 11px; }
+.status-pending .member-status-text { color: #E65100; }
 
 .status-progress {
   background-color: #E3F2FD;
 }
-.status-progress .status-dot {
-  background-color: #0071E3;
-}
-.status-progress .member-status-text {
-  color: #0071E3;
-}
+.status-progress .status-emoji { font-size: 11px; }
+.status-progress .member-status-text { color: #0071E3; }
 
 .member-status-text {
   font-size: 12px;
   font-weight: 500;
 }
 
-/* Invite Button */
+/* ========== Invite Button ========== */
 .invite-section {
   padding: 20px 0;
 }
@@ -264,6 +305,12 @@
   border: 1.5px solid #0071E3;
   border-radius: 14px;
   background-color: #FFFFFF;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.invite-btn:active {
+  background-color: rgba(0, 113, 227, 0.04);
+  transform: scale(0.98);
 }
 
 .invite-text {

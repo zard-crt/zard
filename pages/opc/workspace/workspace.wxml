@@ -5,28 +5,92 @@
     <text class="page-subtitle">诊断评审与决策</text>
   </view>
   <scroll-view scroll-y="true" style="height: {{contentHeight}}px;">
-    <view class="section-header"><text class="section-title">待评审</text><text class="section-count">{{pendingReviews.length}}项</text></view>
+    <view class="section-header">
+      <view class="section-header-left">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="#FF9F0A" stroke-width="1.5"/>
+          <path d="M12 8v4l3 3" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <text class="section-title">待评审</text>
+      </view>
+      <text class="section-count">{{pendingReviews.length}}项</text>
+    </view>
     <view class="review-card glass-card" wx:for="{{pendingReviews}}" wx:key="index" data-index="{{index}}">
       <view class="review-header">
-        <text class="review-title">{{item.title}}</text>
-        <view class="severity-badge level-{{item.severityLevel}}"><text>严重度 {{item.severity}}/10</text></view>
+        <view class="review-title-row">
+          <view class="severity-indicator level-{{item.severityLevel}}"></view>
+          <text class="review-title">{{item.title}}</text>
+        </view>
+        <view class="severity-badge level-{{item.severityLevel}}">
+          <text>{{item.severity}}/10</text>
+        </view>
       </view>
       <text class="review-desc">{{item.description}}</text>
-      <view class="review-tags"><text class="tag" wx:for="{{item.tags}}" wx:key="tagIdx">{{item}}</text></view>
+      <view class="review-tags">
+        <view class="tag-item" wx:for="{{item.tags}}" wx:key="tagIdx">
+          <text>{{item}}</text>
+        </view>
+      </view>
       <view class="review-actions">
-        <view class="action-btn approve {{item.decision === 'approve' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="approve"><text>✓ 可行</text></view>
-        <view class="action-btn conditional {{item.decision === 'conditional' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="conditional"><text>○ 有条件</text></view>
-        <view class="action-btn reject {{item.decision === 'reject' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="reject"><text>✗ 不可行</text></view>
+        <view class="action-btn action-approve {{item.decision === 'approve' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="approve">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+            <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <text>可行</text>
+        </view>
+        <view class="action-btn action-conditional {{item.decision === 'conditional' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="conditional">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <text>有条件</text>
+        </view>
+        <view class="action-btn action-reject {{item.decision === 'reject' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="reject">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <text>不可行</text>
+        </view>
       </view>
     </view>
-    <view class="section-header" style="margin-top: 20px;"><text class="section-title">关键决策</text></view>
+    <view class="section-header" style="margin-top: 24px;">
+      <view class="section-header-left">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <text class="section-title">关键决策</text>
+      </view>
+    </view>
     <view class="glass-card decision-card" wx:for="{{keyDecisions}}" wx:key="index">
-      <text class="decision-question">{{item.question}}</text>
+      <view class="decision-header">
+        <view class="decision-number">{{index + 1}}</view>
+        <text class="decision-question">{{item.question}}</text>
+      </view>
       <view class="decision-options">
-        <view class="option-btn {{item.selected === optIdx ? 'selected' : ''}}" wx:for="{{item.options}}" wx:key="optIdx" bindtap="onDecisionSelect" data-card="{{index}}" data-opt="{{optIdx}}"><text>{{item}}</text></view>
+        <view
+          class="option-btn {{item.selected === optIdx ? 'selected' : ''}}"
+          wx:for="{{item.options}}"
+          wx:key="optIdx"
+          bindtap="onDecisionSelect"
+          data-card="{{index}}"
+          data-opt="{{optIdx}}"
+        >
+          <view class="option-radio {{item.selected === optIdx ? 'option-radio--selected' : ''}}">
+            <view wx:if="{{item.selected === optIdx}}" class="option-radio-dot"></view>
+          </view>
+          <text>{{item}}</text>
+        </view>
       </view>
     </view>
-    <view class="confirm-section"><button class="btn-primary" bindtap="onConfirm">确认提交</button></view>
+    <view class="confirm-section">
+      <button class="btn-primary" bindtap="onConfirm">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M5 13l4 4L19 7" stroke="#1D1D1F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        确认提交
+      </button>
+    </view>
     <view style="height: 100px;"></view>
   </scroll-view>
+  <tab-bar type="opc" active="1" bind:tap="onTabTap"></tab-bar>
 </view>

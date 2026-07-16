@@ -7,7 +7,7 @@
 .avatar-item {
   flex-shrink: 0;
   border-radius: 50%;
-  border: 2px solid #FFFFFF;
+  border: 2px solid rgba(255,255,255,0.9);
 }
 
 .avatar-item--sm {
@@ -61,34 +61,11 @@
   color: #86868B;
 }
 
-.avatar-circle--blue {
-  background: #0071E3;
-}
-
-.avatar-circle--green {
-  background: #34C759;
-}
-
-.avatar-circle--orange {
-  background: #FF9F0A;
-}
-
-.avatar-circle--red {
-  background: #FF3B30;
-}
-
-.avatar-circle--purple {
-  background: #AF52DE;
-}
-
-.avatar-circle--teal {
-  background: #5AC8FA;
-}
-
-.avatar-circle--pink {
-  background: #FF2D55;
-}
-
-.avatar-circle--gray {
-  background: #8E8E93;
-}
+.avatar-circle--blue { background: #0071E3; }
+.avatar-circle--green { background: #34C759; }
+.avatar-circle--orange { background: #FF9F0A; }
+.avatar-circle--red { background: #FF3B30; }
+.avatar-circle--purple { background: #AF52DE; }
+.avatar-circle--teal { background: #5AC8FA; }
+.avatar-circle--pink { background: #FF2D55; }
+.avatar-circle--gray { background: #8E8E93; }

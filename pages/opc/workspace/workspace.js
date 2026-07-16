@@ -1,14 +1,19 @@
 Page({
-  data: { statusBarHeight: 44, contentHeight: 500, pendingReviews: [], keyDecisions: [] },
+  data: {
+    statusBarHeight: 44,
+    contentHeight: 500,
+    pendingReviews: [],
+    keyDecisions: []
+  },
   onLoad() {
     const sys = wx.getSystemInfoSync();
     const statusHeight = sys.statusBarHeight || 44;
     this.setData({ statusBarHeight: statusHeight, contentHeight: sys.windowHeight - statusHeight - 66 });
     this.setData({
       pendingReviews: [
-        { title: '生产排程效率优化方案', severity: 8, severityLevel: 'high', description: '当前排程依赖人工经验，计划引入AI动态排程系统，预计提升产能利用率15%', tags: ['制造业', '排程优化', 'AI预测'], decision: null },
-        { title: '客户流失预警模型', severity: 7, severityLevel: 'high', description: '基于历史交易数据构建流失预测模型，预警准确率目标85%以上', tags: ['零售', '客户分析', '机器学习'], decision: null },
-        { title: '文档智能审核系统', severity: 5, severityLevel: 'medium', description: '利用NLP技术实现合同与报告自动审核，减少人工审核工作量60%', tags: ['专业服务', 'NLP', '文档处理'], decision: null }
+        { id: 1, title: '生产排程效率优化方案', severity: 8, severityLevel: 'high', description: '当前排程依赖人工经验，计划引入AI动态排程系统，预计提升产能利用率15%', tags: ['制造业', '排程优化', 'AI预测'], decision: null },
+        { id: 2, title: '客户流失预警模型', severity: 7, severityLevel: 'high', description: '基于历史交易数据构建流失预测模型，预警准确率目标85%以上', tags: ['零售', '客户分析', '机器学习'], decision: null },
+        { id: 3, title: '文档智能审核系统', severity: 5, severityLevel: 'medium', description: '利用NLP技术实现合同与报告自动审核，减少人工审核工作量60%', tags: ['专业服务', 'NLP', '文档处理'], decision: null }
       ],
       keyDecisions: [
         { question: '是否推进整体方案', options: ['推进', '暂缓', '终止'], selected: null },
@@ -21,11 +26,23 @@ Page({
   },
   onReviewDecision(e) {
     const { index, decision } = e.currentTarget.dataset;
+    wx.vibrateShort ? wx.vibrateShort({ type: 'light' }) : null;
     this.setData({ [`pendingReviews[${index}].decision`]: decision });
   },
   onDecisionSelect(e) {
     const { card, opt } = e.currentTarget.dataset;
     this.setData({ [`keyDecisions[${card}].selected`]: opt });
   },
-  onConfirm() { wx.showToast({ title: '提交成功', icon: 'success', duration: 2000 }); }
+  onConfirm() {
+    wx.showToast({
+      title: '提交成功',
+      icon: 'success',
+      duration: 2000
+    });
+  },
+  onTabTap(e) {
+    const tab = e.detail ? e.detail.tabIndex : 0;
+    if (tab === 0) wx.navigateTo({ url: '/pages/opc/projects/projects' });
+    else if (tab === 2) wx.navigateTo({ url: '/pages/opc/dashboard/dashboard' });
+  }
 });

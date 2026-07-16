@@ -1,51 +1,131 @@
 <view class="page project-detail">
   <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
   <view class="detail-header">
-    <view class="back-btn" bindtap="onBack"><text class="back-arrow">←</text></view>
+    <view class="back-btn" bindtap="onBack">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+        <path d="M15 18l-6-6 6-6" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </view>
     <text class="detail-header-title">项目详情</text>
     <view class="header-placeholder"></view>
   </view>
   <scroll-view scroll-y="true" style="height: {{contentHeight}}px;">
+    <!-- Header Card -->
     <view class="glass-card project-header-card">
-      <text class="project-name-lg">{{project.company}}</text>
-      <view class="project-meta-row">
-        <view class="status-tag {{project.statusClass}}"><text>{{project.statusText}}</text></view>
-        <text class="meta-date">创建: {{project.createDate}}</text>
+      <view class="header-company-row">
+        <view class="company-badge">
+          <text class="company-badge-text">{{project.company ? project.company[0] : '企'}}</text>
+        </view>
+        <view class="header-company-info">
+          <text class="project-name-lg">{{project.company}}</text>
+          <text class="project-industry">{{project.industry}} · {{project.statusText}}</text>
+        </view>
+      </view>
+      <view class="header-meta-row">
+        <view class="meta-item">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+            <rect x="3" y="4" width="18" height="18" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <path d="M8 2v4M16 2v4M3 10h18" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <text class="meta-text">{{project.createDate}} - {{project.endDate}}</text>
+        </view>
+        <view class="status-tag {{project.statusClass}}">{{project.statusText}}</view>
       </view>
     </view>
+    <!-- Progress Section with Circle -->
     <view class="glass-card progress-overview">
       <text class="section-title">项目进度</text>
-      <view class="progress-hero">
-        <text class="progress-number">{{project.progress}}%</text>
-        <view class="progress-bar-bg hero-bar"><view class="progress-bar-fill" style="width: {{project.progress}}%;"></view></view>
+      <view class="progress-hero-row">
+        <view class="progress-circle-wrap">
+          <svg class="progress-circle" viewBox="0 0 80 80" width="80" height="80">
+            <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/>
+            <circle cx="40" cy="40" r="32" fill="none" stroke="#FF9F0A" stroke-width="5"
+              stroke-dasharray="201" stroke-dashoffset="{{201 - (animatedProgress / 100) * 201}}"
+              stroke-linecap="round" transform="rotate(-90 40 40)"
+              style="transition: stroke-dashoffset 1s cubic-bezier(0.34, 1.56, 0.64, 1);"/>
+          </svg>
+          <text class="progress-circle-text">{{animatedProgress}}%</text>
+        </view>
+        <view class="progress-stats-col">
+          <view class="progress-stat-item">
+            <text class="progress-stat-value">{{project.completedTasks}}</text>
+            <text class="progress-stat-label">已完成任务</text>
+          </view>
+          <view class="progress-stat-item">
+            <text class="progress-stat-value">{{project.totalTasks - project.completedTasks}}</text>
+            <text class="progress-stat-label">进行中</text>
+          </view>
+          <view class="progress-stat-item">
+            <text class="progress-stat-value">{{project.members ? project.members.length : 0}}</text>
+            <text class="progress-stat-label">项目成员</text>
+          </view>
+        </view>
       </view>
-      <view class="progress-stats">
-        <view class="stat-item"><text class="stat-value">{{project.completedTasks}}</text><text class="stat-label">已完成</text></view>
-        <view class="stat-item"><text class="stat-value">{{project.totalTasks - project.completedTasks}}</text><text class="stat-label">进行中</text></view>
-        <view class="stat-item"><text class="stat-value">{{project.members.length}}</text><text class="stat-label">成员</text></view>
+      <view class="progress-bar-section">
+        <view class="progress-bar-bg">
+          <view class="progress-bar-fill" style="width: {{animatedProgress}}%;"></view>
+        </view>
+        <view class="progress-bar-labels">
+          <text>0%</text>
+          <text>50%</text>
+          <text>100%</text>
+        </view>
       </view>
     </view>
+    <!-- Members -->
     <view class="glass-card members-section">
       <text class="section-title">参与成员</text>
       <view class="member-list">
         <view class="member-item" wx:for="{{project.members}}" wx:key="index">
-          <view class="member-avatar"><text class="avatar-text">{{item.name[0]}}</text></view>
-          <view class="member-info"><text class="member-name">{{item.name}}</text><text class="member-role">{{item.role}}</text></view>
-          <view class="member-status {{item.done ? 'done' : 'pending'}}"><text>{{item.done ? '已完成' : '待完成'}}</text></view>
+          <view class="member-avatar" style="background: {{index === 0 ? 'linear-gradient(135deg, #FF9F0A, #FFCC02)' : 'rgba(255,159,10,0.2)'}};">
+            <text class="avatar-text" style="color: {{index === 0 ? '#1D1D1F' : '#FF9F0A'}};">{{item.name[0]}}</text>
+          </view>
+          <view class="member-info">
+            <text class="member-name">{{item.name}}</text>
+            <text class="member-role">{{item.role}}</text>
+          </view>
+          <view class="member-status {{item.done ? 'done' : 'pending'}}">
+            <view class="status-inner">
+              <svg wx:if="{{item.done}}" viewBox="0 0 24 24" width="12" height="12" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <text>{{item.done ? '已完成' : '待完成'}}</text>
+            </view>
+          </view>
         </view>
       </view>
     </view>
+    <!-- Findings -->
     <view class="glass-card diagnosis-section">
       <text class="section-title">诊断结果</text>
       <view class="finding-item" wx:for="{{project.findings}}" wx:key="index">
-        <view class="finding-priority {{item.priority}}"></view>
-        <view class="finding-content"><text class="finding-title">{{item.title}}</text><text class="finding-desc">{{item.description}}</text></view>
-        <text class="finding-score">严重度 {{item.severity}}/10</text>
+        <view class="finding-priority {{item.priority}}">
+          <view class="priority-dot {{item.priority}}"></view>
+        </view>
+        <view class="finding-content">
+          <text class="finding-title">{{item.title}}</text>
+          <text class="finding-desc">{{item.description}}</text>
+        </view>
+        <view class="finding-score {{item.priority}}">
+          <text class="score-text">{{item.severity}}/10</text>
+        </view>
       </view>
     </view>
+    <!-- Action Buttons -->
     <view class="action-buttons">
-      <button class="btn-primary" bindtap="onReview">进入评审</button>
-      <button class="btn-secondary" bindtap="onViewPlan">查看方案</button>
+      <button class="btn-primary" bindtap="onReview">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M9 12l2 2 4-4" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#1D1D1F" stroke-width="2"/>
+        </svg>
+        进入评审
+      </button>
+      <button class="btn-secondary" bindtap="onViewPlan">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        查看方案
+      </button>
     </view>
     <view style="height: 40px;"></view>
   </scroll-view>

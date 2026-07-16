@@ -6,11 +6,14 @@
     data-tabindex="{{index}}"
     bindtap="onTabTap"
   >
-    <view class="tab-icon">
-      <svg class="tab-icon-svg" viewBox="0 0 24 24" width="22" height="22">
-        <path d="{{item.iconPath}}" fill="{{active === index ? activeColor : inactiveColor}}" />
-      </svg>
+    <view class="tab-icon-wrapper">
+      <view class="tab-icon">
+        <svg class="tab-icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none">
+          <path d="{{item.iconPath}}" stroke="{{active === index ? activeColor : inactiveColor}}" stroke-width="{{item.strokeWidth || 1.8}}" stroke-linecap="round" stroke-linejoin="round" fill="{{active === index ? activeColor : 'none'}}" fill-opacity="{{active === index ? 1 : 0}}"/>
+        </svg>
+      </view>
     </view>
     <text class="tab-label">{{item.label}}</text>
+    <view class="tab-indicator {{active === index ? 'tab-indicator--active' : ''}}"></view>
   </view>
 </view>

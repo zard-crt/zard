@@ -1,4 +1,4 @@
-// report.js
+// report.js v2 - 报告页
 Page({
   data: {
     statusBarHeight: 44,
@@ -8,6 +8,7 @@ Page({
       name: '星辰科技有限公司',
       logoText: '星',
       color: '#0071E3',
+      colorLight: '#4B9EFF',
       date: '2026年7月',
       status: '诊断完成',
       impactScore: 3.8
@@ -23,8 +24,11 @@ Page({
       ]
     },
     findings: {
-      topDepartment: '销售部', topIssue: '数据孤岛', topIssuePercent: 68,
-      avgScore: 3.8, avgScoreDesc: '中等偏高，需重点关注'
+      topDepartment: '销售部',
+      topIssue: '数据孤岛',
+      topIssuePercent: 68,
+      avgScore: 3.8,
+      avgScoreDesc: '中等偏高，需重点关注'
     }
   },
 
@@ -43,7 +47,14 @@ Page({
     const dept = this.data.heatmap.rows[row].name;
     const issue = this.data.heatmap.columns[col];
     const severity = this.data.heatmap.rows[row].values[col].severity;
-    wx.showToast({ title: dept + '\u00b7' + issue + ': ' + severity + '/5', icon: 'none', duration: 2000 });
+    var severityLabel = '低';
+    if (severity > 3) severityLabel = '高';
+    else if (severity > 1) severityLabel = '中';
+    wx.showToast({
+      title: dept + ' · ' + issue + ': ' + severityLabel + '(' + severity + '/5)',
+      icon: 'none',
+      duration: 2000
+    });
   },
 
   onTabTap(e) {

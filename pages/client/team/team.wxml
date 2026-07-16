@@ -1,5 +1,5 @@
-<!-- team.wxml -->
-<view class="page">
+<!-- team.wxml v2 - 团队页 -->
+<view class="page page-enter">
   <!-- Status bar spacer -->
   <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
   
@@ -8,30 +8,36 @@
     <text class="page-title">团队</text>
   </view>
   
-  <!-- Project Progress Section -->
+  <!-- Project Progress Section with animated circular indicator -->
   <view class="section">
     <text class="section-title">项目进度</text>
-    <view class="progress-card">
+    <view class="progress-card card-lift">
       <view class="progress-card-header">
         <text class="progress-company">{{project.name}}</text>
         <view class="status-tag status-{{project.statusClass}}">
+          <text class="status-emoji">{{project.statusEmoji}}</text>
           <text class="status-text">{{project.status}}</text>
         </view>
       </view>
-      <view class="progress-stats">
-        <view class="stat-item">
-          <text class="stat-number">{{project.completedInterviews}}</text>
-          <text class="stat-label">已完成</text>
+      <!-- Circular progress using conic gradient -->
+      <view class="circular-progress-row">
+        <view class="circular-wrap">
+          <view class="circular-ring" style="background: conic-gradient(#0071E3 0% {{project.completionRate}}%, #F0F0F2 {{project.completionRate}}% 100%);">
+            <view class="circular-inner">
+              <text class="circular-text">{{project.completionRate}}%</text>
+            </view>
+          </view>
         </view>
-        <view class="stat-divider"></view>
-        <view class="stat-item">
-          <text class="stat-number">{{project.totalInterviews}}</text>
-          <text class="stat-label">总访谈</text>
-        </view>
-        <view class="stat-divider"></view>
-        <view class="stat-item">
-          <text class="stat-number">{{project.completionRate}}%</text>
-          <text class="stat-label">完成率</text>
+        <view class="circular-stats">
+          <view class="stat-item">
+            <text class="stat-number count-number">{{project.completedInterviews}}</text>
+            <text class="stat-label">已完成</text>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <text class="stat-number count-number">{{project.totalInterviews}}</text>
+            <text class="stat-label">总访谈</text>
+          </view>
         </view>
       </view>
       <view class="progress-bar-section">
@@ -48,9 +54,9 @@
       <text class="section-title">成员参与情况</text>
     </view>
     <view class="member-list">
-      <view class="member-card" wx:for="{{teamMembers}}" wx:for-item="member" wx:key="index">
+      <view class="member-card stagger-item" wx:for="{{teamMembers}}" wx:for-item="member" wx:key="index">
         <view class="member-card-left">
-          <view class="member-avatar" style="background-color: {{member.color}};">
+          <view class="member-avatar" style="background: linear-gradient(135deg, {{member.color1}}, {{member.color2}});">
             <text class="member-avatar-text">{{member.initials}}</text>
           </view>
           <view class="member-details">
@@ -59,18 +65,18 @@
           </view>
         </view>
         <view class="member-status status-{{member.statusClass}}">
-          <view class="status-dot"></view>
+          <text class="status-emoji">{{member.statusEmoji}}</text>
           <text class="member-status-text">{{member.statusLabel}}</text>
         </view>
       </view>
     </view>
   </view>
   
-  <!-- Invite Button -->
+  <!-- Invite Button with gradient pulse -->
   <view class="invite-section">
-    <view class="invite-btn" bindtap="onInvite">
+    <view class="invite-btn pulse-soft" bindtap="onInvite">
       <svg viewBox="0 0 20 20" width="18" height="18">
-        <path d="M10 4v12M4 10h12" stroke="#0071E3" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10 4v12M4 10h12" stroke="#0071E3" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
       <text class="invite-text">邀请成员</text>
     </view>

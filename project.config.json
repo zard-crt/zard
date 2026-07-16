@@ -1,51 +1,20 @@
 {
   "description": "AIDiagnose - AI企业需求诊断智能体小程序",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
+  "packOptions": { "ignore": [], "include": [] },
   "setting": {
-    "bundle": false,
-    "userConfirmedBundleSwitch": false,
-    "urlCheck": true,
-    "scopeDataCheck": false,
-    "coverView": true,
-    "es6": true,
-    "postcss": true,
-    "compileHotReLoad": false,
-    "lazyloadPlaceholderEnable": false,
-    "preloadBackgroundData": false,
-    "minified": true,
-    "autoAudits": false,
-    "newFeature": false,
-    "uglifyFileName": false,
-    "uploadWithSourceMap": true,
-    "useIsolateContext": true,
-    "nodeModules": false,
-    "enhance": true,
-    "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "useApiHostProcess": true,
+    "bundle": false, "urlCheck": true, "scopeDataCheck": false,
+    "coverView": true, "es6": true, "postcss": true,
+    "compileHotReLoad": true, "minified": true,
+    "enhance": true, "useMultiFrameRuntime": true,
+    "useApiHook": true, "useApiHostProcess": true,
     "showShadowRootInWxmlPanel": true,
-    "packNpmManually": false,
-    "enableEngp": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "showES6CompileOption": false,
-    "minifyWXML": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    }
+    "packNpmManually": false, "minifyWXSS": true, "minifyWXML": true,
+    "babelSetting": { "ignore": [], "disablePlugins": [], "outputPath": "" }
   },
   "compileType": "miniprogram",
   "libVersion": "3.7.8",
-  "appid": "wx0000000000000000",
+  "appid": "wx8b357bd84dc8b55a",
   "projectname": "AIDiagnose",
   "condition": {},
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
-  }
+  "editorSetting": { "tabIndent": "insertSpaces", "tabSize": 2 }
 }

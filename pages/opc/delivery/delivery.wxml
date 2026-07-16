@@ -1,33 +1,112 @@
 <view class="page delivery">
   <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
-  <view class="page-header"><text class="page-title">方案交付</text><text class="page-subtitle">构建并提交诊断方案</text></view>
+  <view class="page-header">
+    <text class="page-title">方案交付</text>
+    <text class="page-subtitle">构建并提交诊断方案</text>
+  </view>
   <scroll-view scroll-y="true" style="height: {{contentHeight}}px;">
+    <!-- Plan Name -->
     <view class="glass-card">
-      <text class="form-label">方案名称</text>
+      <view class="form-label-row">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <text class="form-label">方案名称</text>
+      </view>
       <input class="form-input" placeholder="请输入方案名称" placeholder-class="placeholder" value="{{planName}}" bindinput="onNameInput" />
     </view>
+    <!-- Phases -->
     <view class="glass-card">
-      <view class="form-header"><text class="form-label">分阶段内容</text><view class="add-btn" bindtap="onAddPhase"><text>+ 添加阶段</text></view></view>
+      <view class="form-header">
+        <view class="form-label-row">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+            <path d="M4 6h16M4 12h16M4 18h12" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <text class="form-label">分阶段内容</text>
+        </view>
+        <view class="add-btn" bindtap="onAddPhase">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <text>添加阶段</text>
+        </view>
+      </view>
       <view class="phase-item" wx:for="{{phases}}" wx:key="index">
-        <view class="phase-header"><text class="phase-number">阶段{{index + 1}}</text><view class="delete-btn" bindtap="onDeletePhase" data-index="{{index}}"><text>删除</text></view></view>
+        <view class="phase-header">
+          <view class="phase-number-row">
+            <view class="phase-badge">{{index + 1}}</view>
+            <text class="phase-number">阶段{{index + 1}}</text>
+          </view>
+          <view class="delete-btn" bindtap="onDeletePhase" data-index="{{index}}">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+              <path d="M6 6l12 12M18 6L6 18" stroke="#FF453A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </view>
+        </view>
         <input class="form-input phase-name" placeholder="阶段名称" placeholder-class="placeholder" value="{{item.name}}" bindinput="onPhaseNameInput" data-index="{{index}}" />
         <textarea class="form-textarea" placeholder="阶段内容描述" placeholder-class="placeholder" value="{{item.content}}" bindinput="onPhaseContentInput" data-index="{{index}}"></textarea>
       </view>
+      <view class="phase-end"></view>
     </view>
+    <!-- Budget -->
     <view class="glass-card">
-      <text class="form-label">预算报价（元）</text>
+      <view class="form-label-row">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="#FF9F0A" stroke-width="1.5"/>
+          <path d="M16 8.5C14.5 7 12 8 12 10c0 3 6 1.5 6 4.5 0 2.5-2.5 3.5-4 3" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M12 6v12" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <text class="form-label">预算报价（元）</text>
+      </view>
       <input class="form-input" type="digit" placeholder="请输入预算金额" placeholder-class="placeholder" value="{{budget}}" bindinput="onBudgetInput" />
     </view>
+    <!-- Scope -->
     <view class="glass-card">
-      <text class="form-label">交付范围</text>
+      <view class="form-label-row">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M9 12l2 2 4-4" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="9" stroke="#FF9F0A" stroke-width="1.5"/>
+        </svg>
+        <text class="form-label">交付范围</text>
+      </view>
       <text class="sub-label">包含内容</text>
-      <view class="tag-list"><view class="tag {{item.selected ? 'active' : ''}}" wx:for="{{inclusions}}" wx:key="index" bindtap="onToggleInclude" data-index="{{index}}"><text>{{item.label}}</text></view></view>
-      <text class="sub-label" style="margin-top: 10px;">不包含内容</text>
-      <view class="tag-list"><view class="tag {{item.selected ? 'active' : ''}}" wx:for="{{exclusions}}" wx:key="index" bindtap="onToggleExclude" data-index="{{index}}"><text>{{item.label}}</text></view></view>
+      <view class="tag-list">
+        <view class="tag {{item.selected ? 'active' : ''}}" wx:for="{{inclusions}}" wx:key="index" bindtap="onToggleInclude" data-index="{{index}}">
+          <view class="tag-check {{item.selected ? 'tag-check--active' : ''}}">
+            <svg wx:if="{{item.selected}}" viewBox="0 0 24 24" width="10" height="10" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </view>
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+      <text class="sub-label" style="margin-top: 12px;">不包含内容</text>
+      <view class="tag-list">
+        <view class="tag {{item.selected ? 'active' : ''}}" wx:for="{{exclusions}}" wx:key="index" bindtap="onToggleExclude" data-index="{{index}}">
+          <view class="tag-check {{item.selected ? 'tag-check--active' : ''}}">
+            <svg wx:if="{{item.selected}}" viewBox="0 0 24 24" width="10" height="10" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </view>
+          <text>{{item.label}}</text>
+        </view>
+      </view>
     </view>
+    <!-- Actions -->
     <view class="action-buttons">
-      <button class="btn-primary" bindtap="onPreview">预览方案</button>
-      <button class="btn-secondary" bindtap="onSubmit">提交交付</button>
+      <button class="btn-primary" bindtap="onPreview">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="#1D1D1F" stroke-width="1.5"/>
+          <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke="#1D1D1F" stroke-width="1.5"/>
+        </svg>
+        预览方案
+      </button>
+      <button class="btn-secondary" bindtap="onSubmit">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M5 13l4 4L19 7" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        提交交付
+      </button>
     </view>
     <view style="height: 40px;"></view>
   </scroll-view>

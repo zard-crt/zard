@@ -1,26 +1,96 @@
 <view class="page knowledge">
   <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
-  <view class="page-header"><text class="page-title">知识库</text><text class="page-subtitle">诊断方案与行业洞察</text></view>
-  <view class="search-bar"><input class="search-input" placeholder="搜索知识库内容" placeholder-class="placeholder" value="{{searchValue}}" bindinput="onSearchInput" /></view>
+  <view class="page-header">
+    <text class="page-title">知识库</text>
+    <text class="page-subtitle">诊断方案与行业洞察</text>
+  </view>
+  <view class="search-bar">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" class="search-icon">
+      <circle cx="11" cy="11" r="7" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      <path d="M16.5 16.5l4 4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <input class="search-input" placeholder="搜索知识库内容" placeholder-class="placeholder" value="{{searchValue}}" bindinput="onSearchInput" />
+  </view>
   <scroll-view scroll-y="true" style="height: {{contentHeight}}px;">
+    <!-- Category Chips -->
     <scroll-view class="category-chips" scroll-x="true" show-scrollbar="false">
-      <view wx:for="{{categories}}" wx:key="index" class="chip {{currentCategory === index ? 'active' : ''}}" bindtap="onCategoryTap" data-index="{{index}}"><text>{{item}}</text></view>
-    </scroll-view>
-    <view class="section-header"><text class="section-title">常用模板</text></view>
-    <scroll-view class="template-scroll" scroll-x="true" show-scrollbar="false">
-      <view class="template-card" wx:for="{{templates}}" wx:key="index" bindtap="onTemplateTap" data-id="{{item.id}}">
-        <view class="template-icon" style="background: {{item.iconBg}};"><text class="template-icon-text">{{item.icon}}</text></view>
-        <text class="template-name">{{item.name}}</text>
-        <text class="template-desc">{{item.description}}</text>
+      <view
+        wx:for="{{categories}}"
+        wx:key="index"
+        class="chip {{currentCategory === index ? 'active' : ''}}"
+        bindtap="onCategoryTap"
+        data-index="{{index}}"
+      >
+        <view class="chip-indicator {{currentCategory === index ? 'chip-indicator--active' : ''}}"></view>
+        <text>{{item}}</text>
       </view>
     </scroll-view>
-    <view class="section-header" style="margin-top: 20px;"><text class="section-title">行业报告</text></view>
-    <view class="glass-card report-card" wx:for="{{reports}}" wx:key="index" bindtap="onReportTap" data-id="{{item.id}}">
-      <view class="report-header"><text class="report-title">{{item.title}}</text><text class="report-date">{{item.date}}</text></view>
-      <text class="report-desc">{{item.description}}</text>
-      <view class="report-meta"><text class="report-tag">{{item.category}}</text><text class="report-pages">{{item.pages}}页</text></view>
+    <!-- Templates -->
+    <view class="section-header">
+      <view class="section-header-left">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 2v6h6" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <text class="section-title">常用模板</text>
+      </view>
     </view>
-    <view class="new-template-section"><button class="btn-primary" bindtap="onNewTemplate">+ 新建模板</button></view>
+    <scroll-view class="template-scroll" scroll-x="true" show-scrollbar="false">
+      <view class="template-card" wx:for="{{templates}}" wx:key="index" bindtap="onTemplateTap" data-id="{{item.id}}">
+        <view class="template-icon" style="background: {{item.iconBg}};">
+          <text class="template-icon-text">{{item.icon}}</text>
+        </view>
+        <text class="template-name">{{item.name}}</text>
+        <text class="template-desc">{{item.description}}</text>
+        <view class="template-action">
+          <text class="template-action-text">使用模板</text>
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none">
+            <path d="M5 12h14M13 5l7 7-7 7" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </view>
+      </view>
+    </scroll-view>
+    <!-- Reports -->
+    <view class="section-header" style="margin-top: 24px;">
+      <view class="section-header-left">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M9 12h6M9 16h6" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 2v6h6" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <text class="section-title">行业报告</text>
+      </view>
+    </view>
+    <view class="glass-card report-card" wx:for="{{reports}}" wx:key="index" bindtap="onReportTap" data-id="{{item.id}}">
+      <view class="report-header">
+        <view class="report-title-row">
+          <view class="report-type-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+              <path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z" stroke="#FF9F0A" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M14 2v6h6" stroke="#FF9F0A" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </view>
+          <view class="report-title-content">
+            <text class="report-title">{{item.title}}</text>
+            <text class="report-date">{{item.date}}</text>
+          </view>
+        </view>
+      </view>
+      <text class="report-desc">{{item.description}}</text>
+      <view class="report-meta">
+        <view class="report-tag">{{item.category}}</view>
+        <text class="report-pages">{{item.pages}}页 · 行业报告</text>
+      </view>
+    </view>
+    <!-- New Template Button -->
+    <view class="new-template-section">
+      <button class="btn-primary" bindtap="onNewTemplate">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          <path d="M12 5v14M5 12h14" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        新建模板
+      </button>
+    </view>
     <view style="height: 80px;"></view>
   </scroll-view>
   <tab-bar type="opc" active="1" bind:tap="onTabTap"></tab-bar>

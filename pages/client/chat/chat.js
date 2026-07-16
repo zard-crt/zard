@@ -1,4 +1,4 @@
-// chat.js
+// chat.js v2 - 对话页
 Page({
   data: {
     statusBarHeight: 44,
@@ -6,6 +6,7 @@ Page({
     totalQuestions: 8,
     inputValue: '',
     inputFocused: false,
+    isThinking: false,
     lastMsgId: '',
     messages: [
       {
@@ -64,15 +65,13 @@ Page({
   },
 
   onChoiceTap(e) {
+    if (this.data.isThinking) return;
     const { value } = e.currentTarget.dataset;
     const label = this.getChoiceLabel(value);
-    
-    // Add user message
     const msgs = [...this.data.messages, {
       type: 'user',
       content: label || value
     }];
-    
     this.setData({ messages: msgs }, () => {
       this.scrollToBottom();
       this.advanceQuestion();
@@ -80,11 +79,10 @@ Page({
   },
 
   getChoiceLabel(value) {
-    // Find the label from the last AI message's choices
     for (let i = this.data.messages.length - 1; i >= 0; i--) {
       const msg = this.data.messages[i];
       if (msg.choices) {
-        const choice = msg.choices.find(c => c.value === value);
+        const choice = msg.choices.find(function(c) { return c.value === value; });
         if (choice) return choice.label;
       }
       if (msg.type === 'ai') break;
@@ -97,14 +95,13 @@ Page({
   },
 
   onSend() {
+    if (this.data.isThinking) return;
     const val = this.data.inputValue.trim();
     if (!val) return;
-    
     const msgs = [...this.data.messages, {
       type: 'user',
       content: val
     }];
-    
     this.setData({ messages: msgs, inputValue: '' }, () => {
       this.scrollToBottom();
       this.advanceQuestion();
@@ -113,33 +110,33 @@ Page({
 
   advanceQuestion() {
     if (this.data.currentQuestion >= this.data.totalQuestions) {
-      // Navigate to report
       setTimeout(() => {
-        wx.redirectTo({
-          url: '/pages/client/report/report'
-        });
+        wx.redirectTo({ url: '/pages/client/report/report' });
       }, 800);
       return;
     }
-    
-    this.setData({
-      currentQuestion: this.data.currentQuestion + 1
+    this.setData({ currentQuestion: this.data.currentQuestion + 1 });
+    // Show typing indicator
+    this.setData({ isThinking: true });
+    const msgs = [...this.data.messages, { type: 'typing' }];
+    this.setData({ messages: msgs }, () => {
+      this.scrollToBottom();
     });
-    
     // Mock AI response after delay
     setTimeout(() => {
       this.mockAiResponse();
-    }, 600);
+    }, 800);
   },
 
   mockAiResponse() {
     const q = this.data.currentQuestion;
-    let aiMsg;
-    
+    // Remove typing indicator
+    var msgs = this.data.messages.filter(function(m) { return m.type !== 'typing'; });
+    var aiMsg;
     if (q <= this.data.totalQuestions) {
       aiMsg = {
         type: 'ai',
-        content: `好的，第${q}个问题：你对目前的工具使用情况满意吗？`,
+        content: '好的，第' + q + '个问题：你对目前的工具使用情况满意吗？',
         choices: [
           { label: '非常满意', value: 'very_satisfied' },
           { label: '比较满意', value: 'satisfied' },
@@ -147,16 +144,15 @@ Page({
           { label: '不满意', value: 'unsatisfied' }
         ]
       };
-      
-      const msgs = [...this.data.messages, aiMsg];
-      this.setData({ messages: msgs }, () => {
-        this.scrollToBottom();
-      });
+      msgs.push(aiMsg);
     }
+    this.setData({ messages: msgs, isThinking: false }, () => {
+      this.scrollToBottom();
+    });
   },
 
   scrollToBottom() {
-    const idx = this.data.messages.length - 1;
-    this.setData({ lastMsgId: `msg-${idx}` });
+    var idx = this.data.messages.length - 1;
+    this.setData({ lastMsgId: 'msg-' + idx });
   }
 });

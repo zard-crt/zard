@@ -2,29 +2,74 @@
 .page-header { padding: 0 20px; margin-top: 12px; margin-bottom: 20px; }
 .page-title { font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.85); display: block; line-height: 34px; }
 .page-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+
+/* Section header */
 .section-header { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; margin-bottom: 12px; }
+.section-header-left { display: flex; align-items: center; gap: 6px; }
 .section-title { font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.85); }
 .section-count { font-size: 13px; color: rgba(255,255,255,0.4); }
+
+/* Glass card */
 .glass-card { background: rgba(30,30,32,0.65); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; margin: 0 20px 10px; }
+
+/* Review card */
 .review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-.review-title { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); flex: 1; margin-right: 8px; }
+.review-title-row { display: flex; align-items: flex-start; gap: 8px; flex: 1; min-width: 0; }
+.severity-indicator { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+.severity-indicator.level-high { background: #FF3B30; }
+.severity-indicator.level-medium { background: #FF9F0A; }
+.severity-indicator.level-low { background: #34C759; }
+.review-title { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); line-height: 1.4; }
 .severity-badge { padding: 2px 8px; border-radius: 10px; font-size: 10px; white-space: nowrap; flex-shrink: 0; }
 .severity-badge.level-high { background: rgba(255,59,48,0.15); color: #FF3B30; }
 .severity-badge.level-medium { background: rgba(255,159,10,0.15); color: #FF9F0A; }
 .severity-badge.level-low { background: rgba(52,199,89,0.15); color: #34C759; }
-.review-desc { font-size: 12px; color: rgba(255,255,255,0.5); display: block; margin-bottom: 8px; line-height: 1.5; }
+.review-desc { font-size: 12px; color: rgba(255,255,255,0.5); display: block; margin-bottom: 10px; line-height: 1.5; }
 .review-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.tag { padding: 2px 8px; border-radius: 8px; background: rgba(255,255,255,0.06); font-size: 11px; color: rgba(255,255,255,0.5); }
+.tag-item { padding: 3px 10px; border-radius: 8px; background: rgba(255,255,255,0.06); font-size: 11px; color: rgba(255,255,255,0.5); }
+
+/* Decision buttons */
 .review-actions { display: flex; gap: 8px; }
-.action-btn { flex: 1; text-align: center; padding: 8px 0; border-radius: 10px; font-size: 12px; font-weight: 600; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); }
-.action-btn.selected { border-color: transparent; }
-.action-btn.approve.selected { background: rgba(52,199,89,0.2); color: #34C759; }
-.action-btn.conditional.selected { background: rgba(255,159,10,0.2); color: #FF9F0A; }
-.action-btn.reject.selected { background: rgba(255,59,48,0.2); color: #FF3B30; }
-.decision-question { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); display: block; margin-bottom: 12px; }
+.action-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 9px 0; border-radius: 10px; font-size: 12px; font-weight: 600; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.45); transition: all 0.25s ease; }
+.action-btn:active { transform: scale(0.95); }
+.action-btn.selected { border-color: transparent; transform: scale(1.02); }
+.action-approve.selected { background: rgba(52,199,89,0.18); color: #34C759; box-shadow: 0 0 12px rgba(52,199,89,0.15); }
+.action-conditional.selected { background: rgba(255,159,10,0.18); color: #FF9F0A; box-shadow: 0 0 12px rgba(255,159,10,0.15); }
+.action-reject.selected { background: rgba(255,59,48,0.18); color: #FF3B30; box-shadow: 0 0 12px rgba(255,59,48,0.15); }
+
+/* Decision card */
+.decision-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.decision-number { width: 20px; height: 20px; border-radius: 10px; background: rgba(255,159,10,0.15); color: #FF9F0A; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.decision-question { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); }
+
+/* Radio style options */
 .decision-options { display: flex; flex-wrap: wrap; gap: 8px; }
-.option-btn { padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); font-size: 12px; color: rgba(255,255,255,0.5); }
-.option-btn.selected { background: rgba(255,159,10,0.2); color: #FF9F0A; border-color: #FF9F0A; }
+.option-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: rgba(255,255,255,0.5); transition: all 0.2s ease; }
+.option-btn:active { transform: scale(0.95); }
+.option-btn.selected { background: rgba(255,159,10,0.12); color: #FF9F0A; border-color: rgba(255,159,10,0.3); }
+.option-radio { width: 14px; height: 14px; border-radius: 7px; border: 1.5px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+.option-radio--selected { border-color: #FF9F0A; }
+.option-radio-dot { width: 8px; height: 8px; border-radius: 4px; background: #FF9F0A; animation: radioPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes radioPop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+/* Confirm button */
 .confirm-section { padding: 20px; }
-.btn-primary { background: #FF9F0A; color: #1D1D1F; font-size: 16px; font-weight: 600; border-radius: 12px; height: 48px; line-height: 48px; border: none; }
+.btn-primary {
+  background: linear-gradient(135deg, #FF9F0A 0%, #FFCC02 100%);
+  color: #1D1D1F;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  height: 48px;
+  line-height: 48px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
 .btn-primary::after { border: none; }
+.btn-primary:active { opacity: 0.9; transform: scale(0.98); }

@@ -1,7 +1,23 @@
-<!-- home.wxml -->
+<!-- home.wxml - 企业端首页 v2 -->
 <view class="page">
-  <!-- Status bar spacer -->
-  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <!-- Dynamic Island simulation -->
+  <view class="dynamic-island" style="height: {{statusBarHeight}}px;">
+    <view class="island-content">
+      <view class="island-dot"></view>
+      <text class="island-time">{{currentTime}}</text>
+      <view class="island-icons">
+        <svg viewBox="0 0 14 10" width="14" height="10">
+          <rect x="0.5" y="0.5" width="13" height="9" rx="2" stroke="#1D1D1F" stroke-width="0.8" fill="none"/>
+          <rect x="2" y="2" width="7" height="6" rx="1" fill="#34C759"/>
+          <rect x="10" y="3" width="2.5" height="4" rx="0.5" fill="#34C759"/>
+        </svg>
+        <svg viewBox="0 0 14 10" width="14" height="10" style="margin-left:4px;">
+          <rect x="0.5" y="0.5" width="13" height="9" rx="2" stroke="#1D1D1F" stroke-width="0.8" fill="none"/>
+          <rect x="2" y="2.5" width="10" height="5" rx="1" fill="#0071E3"/>
+        </svg>
+      </view>
+    </view>
+  </view>
   
   <!-- Title Section -->
   <view class="title-section">
@@ -9,9 +25,9 @@
     <text class="page-subtitle">与团队一起发现效率提升机会</text>
   </view>
   
-  <!-- Main CTA Button -->
+  <!-- Main CTA Scan Button with ripple -->
   <view class="cta-section">
-    <view class="scan-btn" bindtap="onScan">
+    <view class="scan-btn pulse-glow ripple" bindtap="onScan">
       <view class="scan-btn-content">
         <svg class="scan-icon" viewBox="0 0 24 24" width="22" height="22">
           <path d="M3 8V5a2 2 0 0 1 2-2h3" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
@@ -20,7 +36,7 @@
           <path d="M8 21H5a2 2 0 0 1-2-2v-3" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
           <line x1="7" y1="12" x2="17" y2="12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <text class="scan-btn-text">扫码加入</text>
+        <text class="scan-btn-text">扫码加入诊断</text>
       </view>
     </view>
   </view>
@@ -32,28 +48,31 @@
       <text class="section-link" bindtap="onViewAll">查看全部</text>
     </view>
     
-    <!-- Projects List -->
+    <!-- Projects List with staggered entrance -->
     <view wx:if="{{projects.length > 0}}" class="projects-list">
-      <view class="project-card" wx:for="{{projects}}" wx:for-item="project" wx:key="index" bindtap="onProjectTap" data-id="{{project.id}}">
+      <view class="project-card stagger-item" wx:for="{{projects}}" wx:for-item="project" wx:key="index" bindtap="onProjectTap" data-id="{{project.id}}">
+        <!-- Gradient accent bar -->
+        <view class="project-accent" style="background: linear-gradient(135deg, {{project.color}}, {{project.colorLight}});"></view>
         <view class="project-row">
-          <view class="project-logo" style="background-color: {{project.color}};">
+          <view class="project-logo" style="background: linear-gradient(135deg, {{project.color}}, {{project.colorLight}});">
             <text class="project-logo-text">{{project.logoText}}</text>
           </view>
           <view class="project-info">
             <view class="project-name-row">
               <text class="project-name">{{project.name}}</text>
               <view class="status-tag status-{{project.statusClass}}">
+                <text class="status-emoji">{{project.statusEmoji}}</text>
                 <text class="status-text">{{project.status}}</text>
               </view>
             </view>
             <view class="progress-section">
               <view class="progress-bar-bg">
-                <view class="progress-bar-fill" style="width: {{project.progress}}%;"></view>
+                <view class="progress-bar-fill" style="width: {{project.progress}}%; background: linear-gradient(90deg, {{project.color}}, {{project.colorLight}});"></view>
               </view>
               <text class="progress-text">{{project.progress}}%</text>
             </view>
             <view class="member-avatars">
-              <view class="avatar-circle" wx:for="{{project.members}}" wx:for-item="member" wx:key="index" style="z-index: {{10 - index}}; margin-left: {{index > 0 ? '-8px' : '0'}};">
+              <view class="avatar-circle" wx:for="{{project.members}}" wx:for-item="member" wx:key="index" style="z-index: {{10 - index}}; margin-left: {{index > 0 ? '-8px' : '0'}}; background: linear-gradient(135deg, {{member.color1}}, {{member.color2}});">
                 <text class="avatar-text">{{member.initials}}</text>
               </view>
               <view wx:if="{{project.memberCount > 5}}" class="avatar-more">
@@ -65,19 +84,20 @@
       </view>
     </view>
     
-    <!-- Empty State -->
+    <!-- Empty State with better SVG -->
     <view wx:else class="empty-state">
       <view class="empty-icon">
-        <svg viewBox="0 0 64 64" width="64" height="64">
-          <rect x="10" y="16" width="44" height="36" rx="4" stroke="#C7C7CC" stroke-width="2" fill="none"/>
-          <line x1="20" y1="28" x2="44" y2="28" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round"/>
-          <line x1="20" y1="36" x2="44" y2="36" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round"/>
-          <line x1="20" y1="44" x2="36" y2="44" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round"/>
+        <svg viewBox="0 0 80 80" width="80" height="80">
+          <circle cx="40" cy="40" r="36" stroke="#E5E5EA" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+          <rect x="26" y="22" width="28" height="28" rx="6" stroke="#C7C7CC" stroke-width="2" fill="none"/>
+          <path d="M34 36l4 4 8-8" stroke="#C7C7CC" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="26" y1="58" x2="54" y2="58" stroke="#E5E5EA" stroke-width="2" stroke-linecap="round"/>
+          <line x1="30" y1="64" x2="50" y2="64" stroke="#E5E5EA" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </view>
       <text class="empty-title">还没有诊断项目</text>
       <text class="empty-desc">扫码开始你的第一个诊断</text>
-      <view class="empty-scan-btn" bindtap="onScan">
+      <view class="empty-scan-btn ripple" bindtap="onScan">
         <text class="empty-scan-text">扫码加入</text>
       </view>
     </view>
@@ -87,13 +107,13 @@
   <view class="section">
     <text class="section-title">团队成员</text>
     <view class="member-row">
-      <view class="member-item" wx:for="{{displayMembers}}" wx:for-item="member" wx:key="index">
-        <view class="member-avatar-large" style="background-color: {{member.color}};">
+      <view class="member-item stagger-item" wx:for="{{displayMembers}}" wx:for-item="member" wx:key="index">
+        <view class="member-avatar-large" style="background: linear-gradient(135deg, {{member.color1}}, {{member.color2}});">
           <text class="member-initials">{{member.initials}}</text>
         </view>
         <text class="member-name">{{member.name}}</text>
       </view>
-      <view wx:if="{{members.length > 5}}" class="member-item">
+      <view wx:if="{{members.length > 5}}" class="member-item stagger-item">
         <view class="member-avatar-large member-more">
           <text class="member-initials">+{{members.length - 5}}</text>
         </view>

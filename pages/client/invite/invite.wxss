@@ -1,4 +1,4 @@
-/* invite.wxss */
+/* invite.wxss v2 - 邀请页 */
 .page {
   min-height: 100vh;
   background-color: #F5F5F7;
@@ -10,13 +10,17 @@
   width: 100%;
 }
 
-/* Nav Bar */
+/* ========== Nav Bar ========== */
 .nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 44px;
   padding: 0 4px;
+  margin-bottom: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .nav-back {
@@ -25,6 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
 }
 
 .nav-title {
@@ -37,25 +42,25 @@
   width: 44px;
 }
 
-/* Project Card */
+/* ========== Project Card ========== */
 .project-card {
   background-color: #FFFFFF;
   border-radius: 14px;
   padding: 14px;
-  margin: 8px 0 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  margin-bottom: 8px;
 }
 
 .project-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .project-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,8 +68,8 @@
 }
 
 .project-logo-text {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 17px;
+  font-weight: 700;
   color: #FFFFFF;
 }
 
@@ -81,11 +86,11 @@
 }
 
 .project-status {
-  font-size: 12px;
+  font-size: 13px;
   color: #86868B;
 }
 
-/* Sections */
+/* ========== Section ========== */
 .section {
   padding: 12px 0;
 }
@@ -98,7 +103,7 @@
   margin-bottom: 12px;
 }
 
-/* Member List */
+/* ========== Member List ========== */
 .member-list {
   display: flex;
   flex-direction: column;
@@ -112,7 +117,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.member-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 .member-card-left {
@@ -129,6 +140,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .member-avatar-text {
@@ -154,12 +167,13 @@
   color: #86868B;
 }
 
-/* Invite Action */
+/* ========== Invite Action ========== */
 .invite-action {
   padding: 6px 16px;
   border-radius: 10px;
   background-color: #0071E3;
   flex-shrink: 0;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .invite-action-text {
@@ -175,7 +189,7 @@
   color: #86868B;
 }
 
-/* Share Options */
+/* ========== Share Options ========== */
 .share-options {
   display: flex;
   gap: 12px;
@@ -189,8 +203,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  gap: 6px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .share-icon {
@@ -203,24 +217,122 @@
 }
 
 .wechat-icon {
-  background-color: rgba(52, 199, 89, 0.12);
+  background: linear-gradient(135deg, rgba(52, 199, 89, 0.15), rgba(52, 199, 89, 0.05));
 }
 
 .code-icon {
-  background-color: rgba(0, 113, 227, 0.12);
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.15), rgba(0, 113, 227, 0.05));
 }
 
 .share-label {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: #1D1D1F;
 }
 
-/* Invited Members */
+.share-desc {
+  font-size: 11px;
+  color: #86868B;
+}
+
+/* ========== Invite Code Modal ========== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.2s cubic-bezier(0.0, 0.0, 0.2, 1) both;
+}
+
+.modal-content {
+  width: 300px;
+  border-radius: 20px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.modal-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin-bottom: 16px;
+}
+
+.code-display {
+  background: #F5F5F7;
+  border-radius: 12px;
+  padding: 14px 24px;
+  margin-bottom: 12px;
+  border: 1px dashed rgba(0, 113, 227, 0.3);
+}
+
+.code-text {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #0071E3;
+}
+
+.modal-desc {
+  font-size: 13px;
+  color: #86868B;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: #0071E3;
+}
+
+.copy-btn-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.modal-close {
+  margin-top: 12px;
+  padding: 8px 24px;
+}
+
+.modal-close-text {
+  font-size: 14px;
+  color: #86868B;
+  font-weight: 500;
+}
+
+/* ========== Invited Members (Timeline) ========== */
 .invited-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+  padding-left: 8px;
+  position: relative;
 }
 
 .invited-item {
@@ -229,14 +341,26 @@
   padding: 10px 14px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  gap: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.timeline-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0071E3;
+  flex-shrink: 0;
+  border: 2px solid rgba(0, 113, 227, 0.15);
 }
 
 .invited-left {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
 }
 
 .invited-avatar {
@@ -263,7 +387,7 @@
 
 .invited-name {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: #1D1D1F;
 }
 
@@ -272,9 +396,17 @@
   color: #86868B;
 }
 
-.invited-status {
+.invited-status-tag {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.invited-status-text {
   font-size: 12px;
-  color: #86868B;
+  color: #30D158;
+  font-weight: 500;
 }
 
 .empty-invited {
