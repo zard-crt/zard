@@ -14,7 +14,6 @@
       <path d="M4 2l4 4-4 4" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </view>
-  </view>
   <scroll-view class="filter-tabs" scroll-x="true" show-scrollbar="false">
     <view wx:for="{{filterTabs}}" wx:key="index" class="filter-tab-wrap">
       <view class="filter-tab {{currentFilter === index ? 'active' : ''}}" bindtap="onFilterTab" data-index="{{index}}">
