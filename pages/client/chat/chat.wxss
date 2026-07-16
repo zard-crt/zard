@@ -307,3 +307,18 @@
 .send-active:active {
   transform: scale(0.92);
 }
+
+/* ========== Nav Role Subtitle ========== */
+.nav-title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.nav-role {
+  font-size: 11px;
+  color: #0071E3;
+  font-weight: 500;
+  opacity: 0.8;
+}

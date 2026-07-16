@@ -1,3 +1,6 @@
+const API = require('../../services/api');
+const { ROLES, getRoleById, PROJECT_STATUS } = require('../../services/models');
+
 Page({
   data: {
     statusBarHeight: 44,
@@ -17,37 +20,115 @@ Page({
     this.loadProjectDetail();
   },
   loadProjectDetail() {
-    const project = {
-      id: this.data.projectId,
-      company: '深圳星河科技有限公司',
-      industry: '制造业',
-      statusClass: 'ongoing',
-      statusText: '进行中',
-      createDate: '2026-06-15',
-      endDate: '2026-08-15',
-      progress: 65,
-      totalTasks: 24,
-      completedTasks: 16,
-      members: [
-        { name: '张明', role: '项目负责人', done: true },
-        { name: '李华', role: 'AI诊断师', done: true },
-        { name: '王芳', role: '数据分析师', done: false },
-        { name: '陈强', role: '方案顾问', done: false }
-      ],
-      findings: [
-        { priority: 'high', title: '数据治理缺失', description: '企业数据标准化程度低，影响AI模型训练效果', severity: 8 },
-        { priority: 'high', title: '流程自动化不足', description: '核心业务流程仍依赖人工操作，效率低下', severity: 7 },
-        { priority: 'medium', title: 'IT架构陈旧', description: '现有系统无法支持AI应用快速部署', severity: 6 },
-        { priority: 'low', title: '人才储备不足', description: '缺乏AI领域专业人才团队建设', severity: 4 }
-      ]
+    const self = this;
+    API.getProjectDetail(this.data.projectId).then(res => {
+      const raw = (res && res.data) || {};
+      const statusObj = PROJECT_STATUS[raw.status] || {};
+
+      // Build members array with completion status from ROLES
+      const allRoles = Object.values(ROLES);
+      const rawMembers = raw.teamMembers || [];
+      const members = rawMembers.length > 0
+        ? rawMembers.map(m => {
+            const roleCfg = getRoleById(m.role) || {};
+            return {
+              name: m.name || roleCfg.name || m.role,
+              role: roleCfg.name || m.role,
+              done: m.completed || false
+            };
+          })
+        : allRoles.map(r => ({
+            name: r.name,
+            role: r.name,
+            done: false
+          }));
+
+      // Map findings/diagnosis summary to findings array
+      const diagnosisSummary = raw.diagnosisSummary || {};
+      const findings = (diagnosisSummary.painPoints || []).map(p => ({
+        priority: p.severity >= 7 ? 'high' : p.severity >= 5 ? 'medium' : 'low',
+        title: p.category || '待识别问题',
+        description: p.description || '需要进一步分析',
+        severity: p.severity || 0
+      }));
+
+      if (findings.length === 0) {
+        // Fallback: generate from dimension scores if available
+        const dimScores = diagnosisSummary.dimensionScores || [];
+        dimScores.forEach(d => {
+          if (d.score && d.score < 60) {
+            findings.push({
+              priority: d.score < 40 ? 'high' : 'medium',
+              title: (d.dimension || '') + '待提升',
+              description: (d.dimension || '') + '维度得分较低，需要关注',
+              severity: Math.round((100 - (d.score || 50)) / 10)
+            });
+          }
+        });
+      }
+
+      // If still empty, add a placeholder
+      if (findings.length === 0) {
+        findings.push({ priority: 'medium', title: '诊断进行中', description: '等待完整诊断数据', severity: 5 });
+      }
+
+      const project = {
+        id: raw.id || self.data.projectId,
+        company: raw.companyName || '未知企业',
+        industry: raw.industry || '',
+        statusClass: self._mapStatusToClass(raw.status),
+        statusText: statusObj.name || raw.status || '未知',
+        createDate: raw.startDate || (raw.createdAt || ''),
+        endDate: raw.deadline || '',
+        progress: raw.progress || 0,
+        totalTasks: diagnosisSummary.totalQuestions || (raw.progress ? 100 : 24),
+        completedTasks: diagnosisSummary.answeredQuestions || (raw.progress ? Math.round(raw.progress) : 16),
+        members: members,
+        findings: findings
+      };
+
+      self.setData({ project: project });
+
+      // Animate progress circle
+      setTimeout(() => {
+        self.setData({ animatedProgress: project.progress });
+      }, 200);
+    }).catch(() => {
+      // Fallback to empty state
+      self.setData({
+        project: {
+          company: '加载失败',
+          industry: '',
+          statusText: '未知',
+          progress: 0,
+          totalTasks: 0,
+          completedTasks: 0,
+          members: [],
+          findings: []
+        }
+      });
+    });
+  },
+  _mapStatusToClass(status) {
+    const map = {
+      'active': 'ongoing',
+      'reviewing': 'review',
+      'pending': 'pending',
+      'ceo_done': 'pending',
+      'completed': 'completed',
+      'delivered': 'delivered'
     };
-    this.setData({ project: project });
-    // Animate progress circle
-    setTimeout(() => {
-      this.setData({ animatedProgress: project.progress });
-    }, 200);
+    return map[status] || 'ongoing';
   },
   onBack() { wx.navigateBack(); },
-  onReview() { wx.navigateTo({ url: '/pages/opc/workspace/workspace' }); },
-  onViewPlan() { wx.navigateTo({ url: '/pages/opc/delivery/delivery' }); }
+  onReview() {
+    const app = getApp();
+    app.globalData.currentProject = this.data.project;
+    wx.navigateTo({ url: '/pages/opc/workspace/workspace' });
+  },
+  onViewPlan() {
+    const app = getApp();
+    app.globalData.currentProject = this.data.project;
+    wx.navigateTo({ url: '/pages/opc/delivery/delivery' });
+  }
 });

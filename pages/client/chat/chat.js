@@ -1,77 +1,99 @@
-// chat.js v2 - 对话页
+// chat.js v3 - 对话页 (使用 DiagnosisEngine)
+const diagnosisEngine = require('../../services/diagnosis');
+const API = require('../../services/api');
+const { getRoleById, ROLES } = require('../../services/models');
+
 Page({
   data: {
     statusBarHeight: 44,
-    currentQuestion: 3,
-    totalQuestions: 8,
+    currentQuestion: 1,
+    totalQuestions: 0,
     inputValue: '',
     inputFocused: false,
     isThinking: false,
     lastMsgId: '',
-    messages: [
-      {
-        type: 'system',
-        content: '诊断开始 · 预计3分钟完成'
-      },
-      {
-        type: 'ai',
-        content: '你好！我是AI诊断助手。首先请告诉我，你在工作中最常遇到的困难是什么？',
-        choices: [
-          { label: '流程繁琐，效率低下', value: 'process' },
-          { label: '数据分散，难以整合', value: 'data' },
-          { label: '重复性工作太多', value: 'repetitive' },
-          { label: '缺乏数据支撑决策', value: 'decision' }
-        ]
-      },
-      {
-        type: 'user',
-        content: '流程繁琐，效率低下'
-      },
-      {
-        type: 'ai',
-        content: '了解了。第二个问题，你觉得目前哪些流程最影响团队效率？（可多选）',
-        choices: [
-          { label: '审批流程', value: 'approval' },
-          { label: '信息同步', value: 'sync' },
-          { label: '任务分配', value: 'task' },
-          { label: '绩效评估', value: 'performance' }
-        ]
-      },
-      {
-        type: 'user',
-        content: '审批流程、信息同步'
-      },
-      {
-        type: 'ai',
-        content: '好的，第3个问题：你所在团队的规模是？',
-        choices: [
-          { label: '1-5人', value: 'small' },
-          { label: '5-20人', value: 'medium' },
-          { label: '20-50人', value: 'large' },
-          { label: '50人以上', value: 'xlarge' }
-        ]
-      }
-    ]
+    messages: [],
+    role: null,
+    roleName: '',
+    roleIcon: ''
   },
 
-  onLoad() {
+  onLoad(options) {
     const sysInfo = wx.getSystemInfoSync();
-    this.setData({ statusBarHeight: sysInfo.statusBarHeight || 44 });
-    this.scrollToBottom();
+    const role = (options && options.role) || wx.getStorageSync('diagnosisRole') || 'ceo';
+    const roleConfig = getRoleById(role);
+    const engine = new diagnosisEngine.DiagnosisEngine();
+    const questions = engine.getQuestions(role, null);
+
+    this.engine = engine;
+    this.questions = questions;
+    this.answers = [];
+    this.answeredCount = 0;
+    this.role = role;
+
+    this.setData({
+      statusBarHeight: sysInfo.statusBarHeight || 44,
+      totalQuestions: questions.length,
+      role: role,
+      roleName: roleConfig ? roleConfig.name : '',
+      roleIcon: roleConfig ? roleConfig.icon : '',
+      messages: [{
+        type: 'system',
+        content: '诊断开始 · 预计' + Math.ceil(questions.length / 3) + '分钟完成'
+      }]
+    }, () => {
+      this.showNextQuestion();
+    });
   },
 
-  onBack() {
-    wx.navigateBack();
+  showNextQuestion() {
+    const question = this.engine.getCurrentQuestion(this.role, null, this.answeredCount);
+    if (!question || this.answeredCount >= this.questions.length) {
+      this.completeDiagnosis();
+      return;
+    }
+    this.setData({ currentQuestion: this.answeredCount + 1 });
+    const aiMsg = {
+      type: 'ai',
+      content: question.text,
+      choices: question.choices
+    };
+    const msgs = this.data.messages.concat([aiMsg]);
+    this.setData({ messages: msgs, isThinking: false }, () => {
+      this.scrollToBottom();
+    });
   },
 
   onChoiceTap(e) {
     if (this.data.isThinking) return;
     const { value } = e.currentTarget.dataset;
-    const label = this.getChoiceLabel(value);
-    const msgs = [...this.data.messages, {
+    const currentQ = this.engine.getCurrentQuestion(this.role, null, this.answeredCount);
+    if (!currentQ) return;
+
+    // Find the label for this choice value from the current question
+    var label = value;
+    if (currentQ.choices) {
+      for (var i = 0; i < currentQ.choices.length; i++) {
+        if (currentQ.choices[i].value === value) {
+          label = currentQ.choices[i].label;
+          break;
+        }
+      }
+    }
+
+    // Record answer
+    this.answers.push({
+      questionId: currentQ.id,
+      question: currentQ,
+      answer: value,
+      timestamp: new Date().toISOString()
+    });
+
+    // Show user message
+    var msgs = this.data.messages.concat([{
       type: 'user',
-      content: label || value
-    }];
+      content: label
+    }]);
     this.setData({ messages: msgs }, () => {
       this.scrollToBottom();
       this.advanceQuestion();
@@ -79,11 +101,13 @@ Page({
   },
 
   getChoiceLabel(value) {
-    for (let i = this.data.messages.length - 1; i >= 0; i--) {
-      const msg = this.data.messages[i];
+    // Try to find the label from the last AI message that had choices
+    for (var i = this.data.messages.length - 1; i >= 0; i--) {
+      var msg = this.data.messages[i];
       if (msg.choices) {
-        const choice = msg.choices.find(function(c) { return c.value === value; });
-        if (choice) return choice.label;
+        for (var j = 0; j < msg.choices.length; j++) {
+          if (msg.choices[j].value === value) return msg.choices[j].label;
+        }
       }
       if (msg.type === 'ai') break;
     }
@@ -96,12 +120,12 @@ Page({
 
   onSend() {
     if (this.data.isThinking) return;
-    const val = this.data.inputValue.trim();
+    var val = this.data.inputValue.trim();
     if (!val) return;
-    const msgs = [...this.data.messages, {
+    var msgs = this.data.messages.concat([{
       type: 'user',
       content: val
-    }];
+    }]);
     this.setData({ messages: msgs, inputValue: '' }, () => {
       this.scrollToBottom();
       this.advanceQuestion();
@@ -109,46 +133,81 @@ Page({
   },
 
   advanceQuestion() {
-    if (this.data.currentQuestion >= this.data.totalQuestions) {
-      setTimeout(() => {
-        wx.redirectTo({ url: '/pages/client/report/report' });
-      }, 800);
+    var currentQ = this.engine.getCurrentQuestion(this.role, null, this.answeredCount);
+    if (!currentQ) {
+      this.completeDiagnosis();
       return;
     }
-    this.setData({ currentQuestion: this.data.currentQuestion + 1 });
+
+    var lastAnswer = this.answers[this.answers.length - 1];
+    if (lastAnswer) {
+      API.submitAnswer(
+        wx.getStorageSync('currentProjectId') || 0,
+        this.role,
+        { questionId: currentQ.id, answer: lastAnswer.answer }
+      );
+    }
+
+    // Get AI commentary response
+    var aiResponse = this.engine.getNextResponse(
+      currentQ,
+      lastAnswer ? lastAnswer.answer : null,
+      this.answers
+    );
+
+    this.answeredCount++;
+
     // Show typing indicator
     this.setData({ isThinking: true });
-    const msgs = [...this.data.messages, { type: 'typing' }];
+    var msgs = this.data.messages.concat([{ type: 'typing' }]);
     this.setData({ messages: msgs }, () => {
       this.scrollToBottom();
     });
-    // Mock AI response after delay
-    setTimeout(() => {
-      this.mockAiResponse();
+
+    // After delay, show AI response then next question
+    setTimeout(function() {
+      var filteredMsgs = [];
+      for (var i = 0; i < this.data.messages.length; i++) {
+        if (this.data.messages[i].type !== 'typing') {
+          filteredMsgs.push(this.data.messages[i]);
+        }
+      }
+
+      if (aiResponse) {
+        filteredMsgs.push({ type: 'ai', content: aiResponse });
+      }
+
+      this.setData({ messages: filteredMsgs, isThinking: false }, () => {
+        this.scrollToBottom();
+        setTimeout(() => {
+          this.showNextQuestion();
+        }, 300);
+      });
+    }.bind(this), 800);
+  },
+
+  completeDiagnosis() {
+    var summary = this.engine.generateSummary(this.answers);
+    var app = getApp();
+    if (!app.globalData.diagnosisResults) {
+      app.globalData.diagnosisResults = {};
+    }
+    app.globalData.diagnosisResults[this.role] = {
+      answers: this.answers,
+      summary: summary,
+      role: this.role,
+      completedAt: new Date().toISOString()
+    };
+    // Store the role so report page knows which role completed
+    app.globalData.lastCompletedRole = this.role;
+
+    setTimeout(function() {
+      wx.redirectTo({ url: '/pages/client/report/report' });
     }, 800);
   },
 
-  mockAiResponse() {
-    const q = this.data.currentQuestion;
-    // Remove typing indicator
-    var msgs = this.data.messages.filter(function(m) { return m.type !== 'typing'; });
-    var aiMsg;
-    if (q <= this.data.totalQuestions) {
-      aiMsg = {
-        type: 'ai',
-        content: '好的，第' + q + '个问题：你对目前的工具使用情况满意吗？',
-        choices: [
-          { label: '非常满意', value: 'very_satisfied' },
-          { label: '比较满意', value: 'satisfied' },
-          { label: '一般', value: 'neutral' },
-          { label: '不满意', value: 'unsatisfied' }
-        ]
-      };
-      msgs.push(aiMsg);
-    }
-    this.setData({ messages: msgs, isThinking: false }, () => {
-      this.scrollToBottom();
-    });
+  onBack() {
+    wx.navigateBack();
   },
 
   scrollToBottom() {
