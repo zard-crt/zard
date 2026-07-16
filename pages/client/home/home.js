@@ -13,7 +13,9 @@ Page({
       { id: 5, name: '陈七', initials: '陈', color1: '#FF2D55', color2: '#FF6B8A' },
       { id: 6, name: '刘八', initials: '刘', color1: '#5AC8FA', color2: '#8AD8FF' },
     ],
-    displayMembers: []
+    displayMembers: [],
+    showRoleModal: false,
+    currentRole: wx.getStorageSync('userRole') || 'client'
   },
 
   onLoad() {
@@ -120,6 +122,26 @@ Page({
   onProjectTap(e) {
     const { id } = e.currentTarget.dataset;
     wx.navigateTo({ url: '/pages/client/report/report?id=' + id });
+  },
+
+  onRoleSwitch() {
+    this.setData({ showRoleModal: true });
+  },
+
+  onRoleSelect(e) {
+    const role = e.currentTarget.dataset.role;
+    this.setData({ currentRole: role, showRoleModal: false });
+    getApp().setRole(role);
+    wx.showToast({ title: role === 'opc' ? '已切换至知晨科技端' : '已切换至企业端', icon: 'none', duration: 1500 });
+    if (role === 'opc') {
+      setTimeout(() => {
+        wx.navigateTo({ url: '/pages/opc/projects/projects' });
+      }, 500);
+    }
+  },
+
+  onRoleModalClose() {
+    this.setData({ showRoleModal: false });
   },
 
   onTabTap(e) {

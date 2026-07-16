@@ -25,6 +25,18 @@
     <text class="page-subtitle">与团队一起发现效率提升机会</text>
   </view>
   
+  <!-- Role Switch Button -->
+  <view class="role-switch" bindtap="onRoleSwitch">
+    <svg viewBox="0 0 20 20" width="16" height="16">
+      <path d="M4 10a6 6 0 0110.5-4M16 10a6 6 0 01-10.5 4" stroke="#0071E3" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M15.5 3.5L14.5 6l2.5-1M4.5 16.5L5.5 14l-2.5 1" stroke="#0071E3" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <text class="role-switch-text">切换至知晨科技端</text>
+    <svg viewBox="0 0 12 12" width="10" height="10">
+      <path d="M4 2l4 4-4 4" stroke="#0071E3" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </view>
+  
   <!-- Main CTA Scan Button with ripple -->
   <view class="cta-section">
     <view class="scan-btn pulse-glow ripple" bindtap="onScan">
@@ -124,6 +136,55 @@
   
   <!-- Tab bar spacer -->
   <view class="tabbar-spacer" style="height: {{tabBarHeight}}px;"></view>
+</view>
+
+<!-- Role Switch Modal -->
+<view wx:if="{{showRoleModal}}" class="role-modal-overlay" bindtap="onRoleModalClose">
+  <view class="role-modal" catchtap="">
+    <text class="role-modal-title">切换角色</text>
+    
+    <view class="role-option {{currentRole === 'client' ? 'role-option-active' : ''}}" bindtap="onRoleSelect" data-role="client">
+      <view class="role-option-icon" style="background: linear-gradient(135deg, #0071E3, #4B9EFF);">
+        <svg viewBox="0 0 22 22" width="22" height="22">
+          <path d="M11 3a4 4 0 100 8 4 4 0 000-8z" stroke="white" stroke-width="1.5" fill="none"/>
+          <path d="M5 19v-1a6 6 0 0112 0v1" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </view>
+      <view class="role-option-info">
+        <text class="role-option-name">企业端</text>
+        <text class="role-option-desc">客户使用 · 扫码诊断 · 团队协作</text>
+      </view>
+      <view wx:if="{{currentRole === 'client'}}" style="color:#0071E3;">
+        <svg viewBox="0 0 20 20" width="20" height="20">
+          <circle cx="10" cy="10" r="8" fill="#0071E3"/>
+          <path d="M7 10l2 2 4-4" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </view>
+    </view>
+    
+    <view class="role-option {{currentRole === 'opc' ? 'role-option-active' : ''}}" bindtap="onRoleSelect" data-role="opc">
+      <view class="role-option-icon" style="background: linear-gradient(135deg, #FF9F0A, #FFCC02);">
+        <svg viewBox="0 0 22 22" width="22" height="22">
+          <rect x="3" y="3" width="16" height="16" rx="3" stroke="white" stroke-width="1.5" fill="none"/>
+          <path d="M8 8h6M8 11h6M8 14h4" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </view>
+      <view class="role-option-info">
+        <text class="role-option-name">知晨科技端</text>
+        <text class="role-option-desc">内部使用 · 项目评审 · 方案交付</text>
+      </view>
+      <view wx:if="{{currentRole === 'opc'}}">
+        <svg viewBox="0 0 20 20" width="20" height="20">
+          <circle cx="10" cy="10" r="8" fill="#FF9F0A"/>
+          <path d="M7 10l2 2 4-4" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </view>
+    </view>
+    
+    <view class="role-modal-cancel" bindtap="onRoleModalClose">
+      <text>取消</text>
+    </view>
+  </view>
 </view>
 
 <!-- Tab bar component -->
