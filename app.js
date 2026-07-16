@@ -1,70 +1,76 @@
-// app.js
+// app.js - AIDiagnose 应用入口
+// 所有服务模块通过 getApp() 全局访问
+
+const API = require('./services/api');
+const { AnalysisEngine } = require('./services/analysis');
+const { DeliveryEngine, MODULE_TEMPLATES, PHASE_TEMPLATES, RISK_TEMPLATES } = require('./services/delivery');
+const DiagnosisEngine = require('./services/diagnosis');
+const models = require('./services/models');
+
 App({
+  // 全局服务 - 通过 getApp().services.xxx 访问
+  services: {
+    API,
+    AnalysisEngine: new AnalysisEngine(),
+    DeliveryEngine: new DeliveryEngine(),
+    DiagnosisEngine,
+    ...models
+  },
+
   globalData: {
     userInfo: null,
-    userRole: null, // 'client' | 'opc'
+    userRole: null,
     isClient: true,
     currentProject: null,
     projects: [],
+    diagnosisResults: {},
+    analysisReport: null,
+    deliveryPlan: null,
+    decisions: null,
     messages: [],
     teamMembers: []
   },
 
   onLaunch() {
-    // 检查登录状态
-    const token = wx.getStorageSync('token')
-    if (token) {
-      this.checkLogin(token)
-    }
+    const token = wx.getStorageSync('token');
+    if (token) this.checkLogin(token);
+    // 初始化DeepSeek配置
+    this.globalData.deepseek = {
+      apiKey: wx.getStorageSync('deepseek_api_key') || '',
+      model: 'deepseek-v4-pro-fast',
+      baseUrl: 'https://api.deepseek.com/v1'
+    };
   },
 
   checkLogin(token) {
-    // 模拟登录检查
-    const userRole = wx.getStorageSync('userRole') || 'client'
-    this.globalData.isClient = userRole === 'client'
-    this.globalData.userRole = userRole
+    const userRole = wx.getStorageSync('userRole') || 'client';
+    this.globalData.isClient = userRole === 'client';
+    this.globalData.userRole = userRole;
   },
 
-  // 设置用户角色（用于调试/开发）
   setRole(role) {
-    this.globalData.isClient = role === 'client'
-    this.globalData.userRole = role
-    wx.setStorageSync('userRole', role)
+    this.globalData.isClient = role === 'client';
+    this.globalData.userRole = role;
+    wx.setStorageSync('userRole', role);
   },
 
-  // 模拟数据
-  getMockProjects() {
-    return [
-      {
-        id: 1,
-        companyName: '星辰科技有限公司',
-        companyLogo: '',
-        status: 'in_progress',
-        statusText: '进行中',
-        progress: 65,
-        members: ['王', '李', '张', '赵'],
-        createdAt: '2026-07-10'
-      },
-      {
-        id: 2,
-        companyName: '鼎新制造集团',
-        companyLogo: '',
-        status: 'completed',
-        statusText: '已完成',
-        progress: 100,
-        members: ['刘', '陈'],
-        createdAt: '2026-07-05'
-      }
-    ]
-  },
-
-  getMockTeamMembers() {
-    return [
-      { name: '王明', role: 'CEO', avatar: '' },
-      { name: '李华', role: '销售总监', avatar: '' },
-      { name: '张伟', role: '运营总监', avatar: '' },
-      { name: '赵琳', role: '财务总监', avatar: '' },
-      { name: '陈静', role: '市场总监', avatar: '' }
-    ]
+  // DeepSeek V4 Pro Fast API 调用
+  async deepseekChat(messages, options = {}) {
+    const { apiKey, model, baseUrl } = this.globalData.deepseek;
+    if (!apiKey) {
+      return { error: '请先配置 DeepSeek API Key' };
+    }
+    try {
+      const res = await this.services.API.request('/chat/completions', {
+        model: model || 'deepseek-v4-pro-fast',
+        messages,
+        temperature: options.temperature || 0.7,
+        max_tokens: options.maxTokens || 2048,
+        stream: false
+      }, 'POST', false);
+      return res;
+    } catch (err) {
+      return { error: err.message || 'API 请求失败' };
+    }
   }
-})
+});

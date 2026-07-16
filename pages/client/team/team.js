@@ -1,6 +1,5 @@
 // team.js v3 - 团队页 (使用 ROLES)
-const { ROLES, ROLE_LIST, PROJECT_STATUS, getRoleById, getStatusById } = require('../../services/models');
-const API = require('../../services/api');
+const app = getApp(); const { ROLES, ROLE_LIST, PROJECT_STATUS, getRoleById, getStatusById } = app.services;
 
 Page({
   data: {

@@ -1,7 +1,5 @@
 // chat.js v3 - 对话页 (使用 DiagnosisEngine)
-const diagnosisEngine = require('../../services/diagnosis');
-const API = require('../../services/api');
-const { getRoleById, ROLES } = require('../../services/models');
+const app = getApp(); const diagnosisEngine = app.services.DiagnosisEngine;
 
 Page({
   data: {

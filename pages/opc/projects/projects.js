@@ -1,5 +1,4 @@
-const API = require('../../services/api');
-const { PROJECT_STATUS, getStatusById } = require('../../services/models');
+const app = getApp(); const API = app.services.API;
 
 const STATUS_FILTER_MAP = {
   0: null,

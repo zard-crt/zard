@@ -1,6 +1,5 @@
 // home.js v3 - 企业端首页 (使用 API.getProjects)
-const API = require('../../services/api');
-const { PROJECT_STATUS, ROLES, ROLE_LIST, getStatusById, getRoleById } = require('../../services/models');
+const app = getApp(); const API = app.services.API;
 
 Page({
   data: {

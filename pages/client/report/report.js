@@ -1,7 +1,5 @@
 // report.js v3 - 报告页 (使用 AnalysisEngine)
-const analysisEngine = require('../../services/analysis');
-const API = require('../../services/api');
-const { getRoleById, ROLES } = require('../../services/models');
+const app = getApp(); const analysisEngine = app.services.AnalysisEngine;
 
 Page({
   data: {
@@ -35,7 +33,6 @@ Page({
     const sysInfo = wx.getSystemInfoSync();
     this.setData({ statusBarHeight: sysInfo.statusBarHeight || 44 });
 
-    const app = getApp();
     var projectId = (options && options.id) || 0;
     if (!projectId && app.globalData.currentProject) {
       projectId = app.globalData.currentProject.id;

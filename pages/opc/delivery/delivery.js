@@ -1,8 +1,6 @@
-const API = require('../../services/api');
-const { DeliveryEngine, MODULE_TEMPLATES, PHASE_TEMPLATES, RISK_TEMPLATES } = require('../../services/delivery');
-const { ROLES, SEVERITY_LEVELS } = require('../../services/models');
+const app = getApp(); const API = app.services.API; const { ROLES, SEVERITY_LEVELS, DeliveryEngine } = app.services;
 
-const deliveryEngine = new DeliveryEngine();
+const deliveryEngine = new app.services.DeliveryEngine();
 
 Page({
   data: {
@@ -40,7 +38,6 @@ Page({
       contentHeight: sys.windowHeight - (sys.statusBarHeight || 44) - 66
     });
 
-    const app = getApp();
     const project = app.globalData.currentProject || {};
     const decisions = app.globalData.currentDecisions || [];
     const deliveryPlan = app.globalData.deliveryPlan || null;
@@ -148,7 +145,6 @@ Page({
     });
 
     // Store in app globalData
-    const app = getApp();
     app.globalData.deliveryPlan = plan;
     app.globalData.generatedDeliverable = deliverablePreview;
   },
@@ -216,7 +212,6 @@ Page({
     const self = this;
 
     // Build final deliverable from current form state
-    const app = getApp();
     const plan = app.globalData.deliveryPlan || {};
     const phasesData = self.data.phases.map(function(p, idx) {
       return { name: '阶段' + (idx + 1) + '：' + p.name, content: p.content };
@@ -256,7 +251,6 @@ Page({
       success: function(res) {
         if (res.confirm) {
           // Build final plan data
-          const app = getApp();
           const finalPlan = {
             planName: self.data.planName,
             phases: self.data.phases,

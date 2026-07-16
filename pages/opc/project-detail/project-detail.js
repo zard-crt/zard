@@ -1,5 +1,4 @@
-const API = require('../../services/api');
-const { ROLES, getRoleById, PROJECT_STATUS } = require('../../services/models');
+const app = getApp(); const API = app.services.API;
 
 Page({
   data: {
@@ -122,12 +121,10 @@ Page({
   },
   onBack() { wx.navigateBack(); },
   onReview() {
-    const app = getApp();
     app.globalData.currentProject = this.data.project;
     wx.navigateTo({ url: '/pages/opc/workspace/workspace' });
   },
   onViewPlan() {
-    const app = getApp();
     app.globalData.currentProject = this.data.project;
     wx.navigateTo({ url: '/pages/opc/delivery/delivery' });
   }

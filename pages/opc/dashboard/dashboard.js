@@ -1,4 +1,4 @@
-const API = require('../../services/api');
+const app = getApp(); const API = app.services.API;
 
 const INDUSTRY_COLORS = ['#FF9F0A', '#5E5CE6', '#30D158', '#FF375F', '#64D2FF'];
 

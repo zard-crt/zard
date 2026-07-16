@@ -1,6 +1,4 @@
-const API = require('../../services/api');
-const { AnalysisEngine } = require('../../services/analysis');
-const { ROLES, getRoleById, SEVERITY_LEVELS } = require('../../services/models');
+const app = getApp(); const API = app.services.API;
 
 const analysisEngine = new AnalysisEngine();
 
@@ -32,7 +30,6 @@ Page({
     });
 
     // Get projectId from app globalData or options
-    const app = getApp();
     const project = app.globalData.currentProject || {};
     this.setData({
       projectId: options.projectId || project.id || 1,
@@ -171,7 +168,6 @@ Page({
     }));
 
     // Store in app globalData for delivery page
-    const app = getApp();
     app.globalData.currentDecisions = decisions;
     app.globalData.currentReviews = pendingReviews;
     app.globalData.overallScore = self.data.overallScore;

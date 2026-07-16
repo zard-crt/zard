@@ -14,9 +14,41 @@ const API = {
    * @param {object} data   请求参数
    * @param {string} method HTTP 方法
    */
-  request(url, data = {}, method = 'GET') {
-    if (this.USE_MOCK) {
+  request(url, data = {}, method = 'GET', useDeepseek = false) {
+    if (this.USE_MOCK && !useDeepseek) {
       return this._mockResponse(url, data, method);
+    }
+    if (useDeepseek) {
+      const app = getApp();
+      const { apiKey, model, baseUrl } = app.globalData.deepseek || {};
+      if (!apiKey) {
+        return Promise.reject({ errMsg: '请先配置 DeepSeek API Key' });
+      }
+      return new Promise((resolve, reject) => {
+        wx.request({
+          url: (baseUrl || 'https://api.deepseek.com/v1') + '/chat/completions',
+          method: 'POST',
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+          },
+          data: {
+            model: model || 'deepseek-chat',
+            messages: data.messages || [],
+            temperature: data.temperature || 0.7,
+            max_tokens: data.maxTokens || 4096,
+            stream: false
+          },
+          success: (res) => {
+            if (res.data && res.data.choices && res.data.choices[0]) {
+              resolve({ code: 0, data: { reply: res.data.choices[0].message.content, usage: res.data.usage } });
+            } else {
+              reject({ errMsg: 'DeepSeek 返回异常', raw: res.data });
+            }
+          },
+          fail: (err) => reject({ errMsg: '网络请求失败', error: err })
+        });
+      });
     }
     return new Promise((resolve, reject) => {
       wx.request({
@@ -376,6 +408,23 @@ const API = {
     }
     const flat = Object.values(all).flat();
     return { code: 0, data: flat };
+  },
+
+  // 直接调用 DeepSeek V4 Pro Fast
+  deepseekChat(messages, options = {}) {
+    return this.request('/chat/completions', {
+      messages,
+      temperature: options.temperature || 0.7,
+      maxTokens: options.maxTokens || 4096
+    }, 'POST', true);
+  },
+
+  // 设置 DeepSeek API Key
+  setDeepseekKey(apiKey) {
+    const app = getApp();
+    app.globalData.deepseek = app.globalData.deepseek || {};
+    app.globalData.deepseek.apiKey = apiKey;
+    wx.setStorageSync('deepseek_api_key', apiKey);
   }
 };
 

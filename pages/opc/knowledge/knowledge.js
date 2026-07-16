@@ -1,4 +1,4 @@
-const API = require('../../services/api');
+const app = getApp(); const API = app.services.API;
 
 Page({
   data: {

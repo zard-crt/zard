@@ -1,5 +1,5 @@
 // invite.js v3 - 邀请页 (使用 ROLES)
-const { ROLES, ROLE_LIST } = require('../../services/models');
+const app = getApp(); const { ROLES, ROLE_LIST } = app.services;
 
 Page({
   data: {
