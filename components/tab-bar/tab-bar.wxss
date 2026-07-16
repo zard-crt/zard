@@ -1,0 +1,82 @@
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 80px;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.tab-bar--client {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+
+.tab-bar--opc {
+  background: rgba(30, 30, 32, 0.6);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  flex: 1;
+  height: 56px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-icon-svg {
+  display: block;
+}
+
+.tab-label {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+}
+
+.tab-bar--client .tab-label {
+  color: #86868B;
+}
+
+.tab-bar--opc .tab-label {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.tab-item--active .tab-label {
+  font-weight: 600;
+}
+
+.tab-bar--client .tab-item--active .tab-label {
+  color: #0071E3;
+}
+
+.tab-bar--opc .tab-item--active .tab-label {
+  color: #FF9F0A;
+}

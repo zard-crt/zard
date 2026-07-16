@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+npm-packages-offline-cache/
+
+# WeChat Dev Tools
+.project.config.json.bak
+.project.config.json.*.bak
+.project.config.json.*.swp
+.project.config.json.*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-*
+
+# Logs
+logs/
+*.log
+
+# Runtime
+temp/
+__session__

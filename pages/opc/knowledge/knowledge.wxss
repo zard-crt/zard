@@ -1,0 +1,29 @@
+.page.knowledge { min-height: 100vh; background: #1D1D1F; }
+.page-header { padding: 0 20px; margin-top: 12px; margin-bottom: 16px; }
+.page-title { font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.85); display: block; line-height: 34px; }
+.page-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+.search-bar { margin: 0 20px 16px; height: 40px; background: rgba(255,255,255,0.08); border-radius: 20px; display: flex; align-items: center; padding: 0 14px; }
+.search-input { flex: 1; height: 100%; font-size: 14px; color: rgba(255,255,255,0.85); }
+.placeholder { color: rgba(255,255,255,0.25); font-size: 14px; }
+.category-chips { padding: 0 20px; margin-bottom: 16px; white-space: nowrap; }
+.chip { display: inline-flex; padding: 6px 16px; border-radius: 20px; background: rgba(255,255,255,0.06); margin-right: 8px; font-size: 13px; color: rgba(255,255,255,0.5); }
+.chip.active { background: rgba(255,159,10,0.2); color: #FF9F0A; font-weight: 600; }
+.section-header { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; margin-bottom: 12px; }
+.section-title { font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.85); }
+.template-scroll { padding: 0 20px; white-space: nowrap; margin-bottom: 4px; }
+.template-card { display: inline-flex; flex-direction: column; width: 140px; background: rgba(30,30,32,0.65); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; margin-right: 10px; }
+.template-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.template-icon-text { font-size: 20px; }
+.template-name { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); display: block; margin-bottom: 4px; }
+.template-desc { font-size: 11px; color: rgba(255,255,255,0.4); display: block; }
+.glass-card { background: rgba(30,30,32,0.65); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; margin: 0 20px 10px; }
+.report-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+.report-title { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); flex: 1; margin-right: 8px; }
+.report-date { font-size: 11px; color: rgba(255,255,255,0.3); white-space: nowrap; }
+.report-desc { font-size: 12px; color: rgba(255,255,255,0.5); display: block; margin-bottom: 8px; line-height: 1.5; }
+.report-meta { display: flex; gap: 10px; }
+.report-tag { padding: 2px 8px; border-radius: 8px; background: rgba(255,159,10,0.15); font-size: 10px; color: #FF9F0A; }
+.report-pages { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 20px; }
+.new-template-section { padding: 8px 20px 0; }
+.btn-primary { background: #FF9F0A; color: #1D1D1F; font-size: 16px; font-weight: 600; border-radius: 12px; height: 48px; line-height: 48px; border: none; }
+.btn-primary::after { border: none; }

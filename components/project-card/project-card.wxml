@@ -1,0 +1,22 @@
+<view class="project-card" bindtap="onTap">
+  <view class="card-top">
+    <view class="company-avatar">
+      <text class="company-initial">{{companyInitial}}</text>
+    </view>
+    <view class="card-info">
+      <text class="company-name">{{companyName}}</text>
+      <view class="project-meta">
+        <text class="project-status {{'project-status--' + status}}">{{statusText}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="progress-section">
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%"></view>
+    </view>
+    <text class="progress-text">{{progress}}%</text>
+  </view>
+  <view class="card-footer">
+    <avatar-group members="{{memberList}}" max="5" size="sm"></avatar-group>
+  </view>
+</view>

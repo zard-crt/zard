@@ -1,0 +1,34 @@
+<view class="page projects">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="page-header">
+    <text class="page-title">项目</text>
+    <text class="page-subtitle">所有诊断项目一览</text>
+  </view>
+  <scroll-view class="filter-tabs" scroll-x="true" show-scrollbar="false">
+    <view wx:for="{{filterTabs}}" wx:key="index" class="filter-tab {{currentFilter === index ? 'active' : ''}}" bindtap="onFilterTab" data-index="{{index}}">
+      <text>{{item}}</text>
+    </view>
+  </scroll-view>
+  <scroll-view class="project-list" scroll-y="true" style="height: {{listHeight}}px;" bindscrolltolower="onLoadMore">
+    <view wx:for="{{projects}}" wx:key="index" class="project-card" bindtap="onProjectTap" data-id="{{item.id}}">
+      <view class="card-header">
+        <text class="company-name">{{item.company}}</text>
+        <view class="status-tag {{item.statusClass}}"><text>{{item.statusText}}</text></view>
+      </view>
+      <view class="card-body">
+        <view class="progress-section">
+          <view class="progress-bar-bg"><view class="progress-bar-fill" style="width: {{item.progress}}%;"></view></view>
+          <text class="progress-text">{{item.progress}}%</text>
+        </view>
+      </view>
+      <view class="card-footer">
+        <view class="footer-item"><text class="footer-text">{{item.members}}人参与</text></view>
+        <view class="footer-item"><text class="footer-text">{{item.date}}</text></view>
+      </view>
+    </view>
+    <view wx:if="{{loading}}" class="loading-more"><text>加载中...</text></view>
+    <view wx:if="{{noMore}}" class="no-more"><text>没有更多了</text></view>
+  </scroll-view>
+  <view style="height: 80px;"></view>
+  <tab-bar type="opc" active="0" bind:tap="onTabTap"></tab-bar>
+</view>

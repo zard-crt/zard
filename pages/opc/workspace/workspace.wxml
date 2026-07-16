@@ -1,0 +1,32 @@
+<view class="page workspace">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="page-header">
+    <text class="page-title">工作台</text>
+    <text class="page-subtitle">诊断评审与决策</text>
+  </view>
+  <scroll-view scroll-y="true" style="height: {{contentHeight}}px;">
+    <view class="section-header"><text class="section-title">待评审</text><text class="section-count">{{pendingReviews.length}}项</text></view>
+    <view class="review-card glass-card" wx:for="{{pendingReviews}}" wx:key="index" data-index="{{index}}">
+      <view class="review-header">
+        <text class="review-title">{{item.title}}</text>
+        <view class="severity-badge level-{{item.severityLevel}}"><text>严重度 {{item.severity}}/10</text></view>
+      </view>
+      <text class="review-desc">{{item.description}}</text>
+      <view class="review-tags"><text class="tag" wx:for="{{item.tags}}" wx:key="tagIdx">{{item}}</text></view>
+      <view class="review-actions">
+        <view class="action-btn approve {{item.decision === 'approve' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="approve"><text>✓ 可行</text></view>
+        <view class="action-btn conditional {{item.decision === 'conditional' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="conditional"><text>○ 有条件</text></view>
+        <view class="action-btn reject {{item.decision === 'reject' ? 'selected' : ''}}" bindtap="onReviewDecision" data-index="{{index}}" data-decision="reject"><text>✗ 不可行</text></view>
+      </view>
+    </view>
+    <view class="section-header" style="margin-top: 20px;"><text class="section-title">关键决策</text></view>
+    <view class="glass-card decision-card" wx:for="{{keyDecisions}}" wx:key="index">
+      <text class="decision-question">{{item.question}}</text>
+      <view class="decision-options">
+        <view class="option-btn {{item.selected === optIdx ? 'selected' : ''}}" wx:for="{{item.options}}" wx:key="optIdx" bindtap="onDecisionSelect" data-card="{{index}}" data-opt="{{optIdx}}"><text>{{item}}</text></view>
+      </view>
+    </view>
+    <view class="confirm-section"><button class="btn-primary" bindtap="onConfirm">确认提交</button></view>
+    <view style="height: 100px;"></view>
+  </scroll-view>
+</view>

@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/client/home/home",
+    "pages/client/chat/chat",
+    "pages/client/team/team",
+    "pages/client/report/report",
+    "pages/client/invite/invite",
+    "pages/opc/projects/projects",
+    "pages/opc/project-detail/project-detail",
+    "pages/opc/workspace/workspace",
+    "pages/opc/delivery/delivery",
+    "pages/opc/dashboard/dashboard",
+    "pages/opc/knowledge/knowledge"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#F5F5F7",
+    "pageOrientation": "portrait"
+  },
+  "usingComponents": {
+    "tab-bar": "/components/tab-bar/tab-bar",
+    "project-card": "/components/project-card/project-card",
+    "avatar-group": "/components/avatar-group/avatar-group",
+    "chat-bubble": "/components/chat-bubble/chat-bubble",
+    "stat-card": "/components/stat-card/stat-card",
+    "tag-component": "/components/tag/tag",
+    "industry-chart": "/components/industry-chart/industry-chart"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

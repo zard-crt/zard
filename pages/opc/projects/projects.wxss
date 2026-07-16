@@ -1,0 +1,23 @@
+.page.projects { min-height: 100vh; background: #1D1D1F; }
+.page-header { padding: 0 20px; margin-top: 12px; margin-bottom: 20px; }
+.page-title { font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.85); display: block; line-height: 34px; }
+.page-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+.filter-tabs { padding: 0 20px; margin-bottom: 16px; white-space: nowrap; }
+.filter-tab { display: inline-flex; padding: 6px 16px; border-radius: 20px; background: rgba(255,255,255,0.08); margin-right: 8px; font-size: 13px; color: rgba(255,255,255,0.5); }
+.filter-tab.active { background: rgba(255,159,10,0.2); color: #FF9F0A; font-weight: 600; }
+.project-list { padding: 0 20px; }
+.project-card { background: rgba(30,30,32,0.65); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.company-name { font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.85); flex: 1; margin-right: 8px; }
+.status-tag { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+.status-tag.ongoing { background: rgba(255,159,10,0.15); color: #FF9F0A; }
+.status-tag.completed { background: rgba(52,199,89,0.15); color: #34C759; }
+.status-tag.review { background: rgba(0,122,255,0.15); color: #007AFF; }
+.status-tag.delivered { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+.progress-section { display: flex; align-items: center; gap: 10px; }
+.progress-bar-bg { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #FF9F0A, #FFB340); border-radius: 2px; }
+.progress-text { font-size: 12px; color: rgba(255,255,255,0.5); min-width: 32px; text-align: right; }
+.card-footer { display: flex; margin-top: 12px; padding-top: 10px; border-top: 0.5px solid rgba(255,255,255,0.08); gap: 20px; }
+.footer-text { font-size: 12px; color: rgba(255,255,255,0.4); }
+.loading-more, .no-more { padding: 20px 0; text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); }

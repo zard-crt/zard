@@ -1,0 +1,49 @@
+.page.project-detail { min-height: 100vh; background: #1D1D1F; }
+.detail-header { display: flex; align-items: center; padding: 0 20px 12px; justify-content: space-between; }
+.back-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+.back-arrow { font-size: 20px; color: rgba(255,255,255,0.6); }
+.detail-header-title { font-size: 17px; font-weight: 600; color: rgba(255,255,255,0.85); }
+.header-placeholder { width: 32px; }
+.glass-card { background: rgba(30,30,32,0.65); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; margin: 0 20px 12px; }
+.project-name-lg { font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.85); display: block; margin-bottom: 8px; }
+.project-meta-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.status-tag { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+.status-tag.ongoing { background: rgba(255,159,10,0.15); color: #FF9F0A; }
+.status-tag.completed { background: rgba(52,199,89,0.15); color: #34C759; }
+.meta-date { font-size: 12px; color: rgba(255,255,255,0.4); }
+.section-title { font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.85); display: block; margin-bottom: 12px; }
+.progress-hero { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+.progress-number { font-size: 36px; font-weight: 700; color: #FF9F0A; min-width: 70px; }
+.hero-bar { flex: 1; height: 6px; }
+.progress-bar-bg { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #FF9F0A, #FFB340); border-radius: 2px; }
+.progress-stats { display: flex; justify-content: space-around; padding-top: 12px; border-top: 0.5px solid rgba(255,255,255,0.08); }
+.stat-item { text-align: center; }
+.stat-value { font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.85); display: block; }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.4); display: block; margin-top: 2px; }
+.member-list { margin-top: 10px; }
+.member-item { display: flex; align-items: center; padding: 8px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.member-item:last-child { border-bottom: none; }
+.member-avatar { width: 36px; height: 36px; border-radius: 18px; background: rgba(255,159,10,0.2); display: flex; align-items: center; justify-content: center; margin-right: 10px; }
+.avatar-text { font-size: 14px; font-weight: 600; color: #FF9F0A; }
+.member-info { flex: 1; }
+.member-name { font-size: 14px; color: rgba(255,255,255,0.85); display: block; }
+.member-role { font-size: 11px; color: rgba(255,255,255,0.4); display: block; margin-top: 2px; }
+.member-status { padding: 3px 8px; border-radius: 10px; font-size: 11px; }
+.member-status.done { background: rgba(52,199,89,0.15); color: #34C759; }
+.member-status.pending { background: rgba(255,159,10,0.15); color: #FF9F0A; }
+.finding-item { display: flex; align-items: flex-start; padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); gap: 10px; }
+.finding-item:last-child { border-bottom: none; }
+.finding-priority { width: 8px; height: 8px; border-radius: 4px; margin-top: 5px; flex-shrink: 0; }
+.finding-priority.high { background: #FF3B30; }
+.finding-priority.medium { background: #FF9F0A; }
+.finding-priority.low { background: #34C759; }
+.finding-content { flex: 1; }
+.finding-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); display: block; }
+.finding-desc { font-size: 12px; color: rgba(255,255,255,0.5); display: block; margin-top: 2px; }
+.finding-score { font-size: 11px; color: #FF9F0A; white-space: nowrap; flex-shrink: 0; }
+.action-buttons { padding: 8px 20px 0; display: flex; flex-direction: column; gap: 10px; }
+.btn-primary { background: #FF9F0A; color: #1D1D1F; font-size: 16px; font-weight: 600; border-radius: 12px; height: 48px; line-height: 48px; border: none; }
+.btn-primary::after { border: none; }
+.btn-secondary { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); font-size: 16px; font-weight: 600; border-radius: 12px; height: 48px; line-height: 48px; border: none; }
+.btn-secondary::after { border: none; }

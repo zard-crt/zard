@@ -1,0 +1,21 @@
+<view class="avatar-group avatar-group--{{size}}">
+  <view
+    wx:for="{{displayMembers}}"
+    wx:key="index"
+    class="avatar-item avatar-item--{{size}}"
+    style="z-index: {{displayMembers.length - index}}; margin-left: {{index === 0 ? 0 : overlapOffset}}"
+  >
+    <view class="avatar-circle avatar-circle--{{size}} avatar-circle--{{item.color}}">
+      <text class="avatar-text avatar-text--{{size}}">{{item.initial}}</text>
+    </view>
+  </view>
+  <view
+    wx:if="{{overflow > 0}}"
+    class="avatar-item avatar-item--{{size}}"
+    style="z-index: 0; margin-left: {{overlapOffset}}"
+  >
+    <view class="avatar-circle avatar-circle--{{size}} avatar-circle--overflow">
+      <text class="avatar-text avatar-text--{{size}}">+{{overflow}}</text>
+    </view>
+  </view>
+</view>

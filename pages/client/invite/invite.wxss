@@ -1,0 +1,293 @@
+/* invite.wxss */
+.page {
+  min-height: 100vh;
+  background-color: #F5F5F7;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.status-bar {
+  width: 100%;
+}
+
+/* Nav Bar */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 4px;
+}
+
+.nav-back {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1D1D1F;
+}
+
+.nav-placeholder {
+  width: 44px;
+}
+
+/* Project Card */
+.project-card {
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  padding: 14px;
+  margin: 8px 0 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.project-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.project-logo-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.project-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1D1D1F;
+}
+
+.project-status {
+  font-size: 12px;
+  color: #86868B;
+}
+
+/* Sections */
+.section {
+  padding: 12px 0;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #1D1D1F;
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* Member List */
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.member-card {
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.member-card-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.member-avatar-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.member-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.member-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1D1D1F;
+}
+
+.member-role {
+  font-size: 12px;
+  color: #86868B;
+}
+
+/* Invite Action */
+.invite-action {
+  padding: 6px 16px;
+  border-radius: 10px;
+  background-color: #0071E3;
+  flex-shrink: 0;
+}
+
+.invite-action-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.invite-action.invited {
+  background-color: #F0F0F2;
+}
+.invite-action.invited .invite-action-text {
+  color: #86868B;
+}
+
+/* Share Options */
+.share-options {
+  display: flex;
+  gap: 12px;
+}
+
+.share-btn {
+  flex: 1;
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.share-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wechat-icon {
+  background-color: rgba(52, 199, 89, 0.12);
+}
+
+.code-icon {
+  background-color: rgba(0, 113, 227, 0.12);
+}
+
+.share-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+/* Invited Members */
+.invited-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.invited-item {
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.invited-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.invited-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.invited-avatar-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.invited-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.invited-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+.invited-time {
+  font-size: 11px;
+  color: #86868B;
+}
+
+.invited-status {
+  font-size: 12px;
+  color: #86868B;
+}
+
+.empty-invited {
+  padding: 24px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.empty-invited-text {
+  font-size: 14px;
+  color: #C7C7CC;
+}
+
+.tabbar-spacer {
+  width: 100%;
+}

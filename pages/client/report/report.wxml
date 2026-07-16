@@ -1,0 +1,113 @@
+<!-- report.wxml -->
+<view class="page">
+  <!-- Status bar spacer -->
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  
+  <!-- Title -->
+  <view class="title-section">
+    <text class="page-title">诊断报告</text>
+  </view>
+  
+  <!-- Company Info Card -->
+  <view class="company-card">
+    <view class="company-row">
+      <view class="company-logo" style="background-color: {{company.color}};">
+        <text class="company-logo-text">{{company.logoText}}</text>
+      </view>
+      <view class="company-details">
+        <text class="company-name">{{company.name}}</text>
+        <text class="company-date">{{company.date}} · {{company.status}}</text>
+      </view>
+    </view>
+    <view class="company-score">
+      <text class="score-number">{{company.impactScore}}</text>
+      <text class="score-label">影响评分</text>
+    </view>
+  </view>
+  
+  <!-- Heatmap Matrix Section -->
+  <view class="section">
+    <text class="section-title">团队反馈总览</text>
+    <view class="heatmap-card">
+      <view class="heatmap-grid">
+        <!-- Header row -->
+        <view class="heatmap-row heatmap-header">
+          <view class="heatmap-cell-label"></view>
+          <view class="heatmap-cell-header" wx:for="{{heatmap.columns}}" wx:for-item="col" wx:key="index">
+            <text class="heatmap-header-text">{{col}}</text>
+          </view>
+        </view>
+        <!-- Data rows -->
+        <view class="heatmap-row" wx:for="{{heatmap.rows}}" wx:for-item="row" wx:for-index="rowIdx" wx:key="index">
+          <view class="heatmap-cell-label">
+            <text class="heatmap-label-text">{{row.name}}</text>
+          </view>
+          <view class="heatmap-cell" wx:for="{{row.values}}" wx:for-item="val" wx:for-index="colIdx" wx:key="index" bindtap="onHeatmapCell" data-row="{{rowIdx}}" data-col="{{colIdx}}">
+            <view class="heatmap-dot heatmap-dot-{{val.severity > 3 ? 'high' : val.severity > 1 ? 'medium' : 'low'}}" style="opacity: {{0.3 + val.severity * 0.18}};">
+              <text class="heatmap-dot-text">{{val.severity}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- Key Findings Section -->
+  <view class="section">
+    <text class="section-title">关键发现</text>
+    <view class="findings-list">
+      <!-- Most concentrated department -->
+      <view class="finding-card">
+        <view class="finding-icon finding-icon-purple">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#AF52DE" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <circle cx="9" cy="7" r="4" stroke="#AF52DE" stroke-width="2" fill="none"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="#AF52DE" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="#AF52DE" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </view>
+        <view class="finding-content">
+          <text class="finding-label">最集中的部门</text>
+          <text class="finding-value">{{findings.topDepartment}}</text>
+          <text class="finding-desc">反馈数量最多，问题最集中</text>
+        </view>
+      </view>
+      
+      <!-- Most common issue -->
+      <view class="finding-card">
+        <view class="finding-icon finding-icon-orange">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#FF9500" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 17l10 5 10-5" stroke="#FF9500" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 12l10 5 10-5" stroke="#FF9500" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </view>
+        <view class="finding-content">
+          <text class="finding-label">最普遍的问题</text>
+          <text class="finding-value">{{findings.topIssue}}</text>
+          <text class="finding-desc">{{findings.topIssuePercent}}%的团队反馈了此问题</text>
+        </view>
+      </view>
+      
+      <!-- Average impact score -->
+      <view class="finding-card">
+        <view class="finding-icon finding-icon-blue">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="#0071E3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </view>
+        <view class="finding-content">
+          <text class="finding-label">平均影响评分</text>
+          <text class="finding-value">{{findings.avgScore}}/5</text>
+          <text class="finding-desc">{{findings.avgScoreDesc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- Tab bar spacer -->
+  <view class="tabbar-spacer" style="height: {{tabBarHeight}}px;"></view>
+</view>
+
+<!-- Tab bar component -->
+<tab-bar type="client" active="2" bind:tap="onTabTap"></tab-bar>

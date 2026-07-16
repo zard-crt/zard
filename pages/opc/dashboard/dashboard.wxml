@@ -1,0 +1,36 @@
+<view class="page dashboard">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="page-header"><text class="page-title">数据</text><text class="page-subtitle">平台运营概览</text></view>
+  <scroll-view scroll-y="true" style="height: {{contentHeight}}px;">
+    <view class="stat-row">
+      <view class="stat-card glass-card"><text class="stat-number">{{stats.ongoing}}</text><text class="stat-label">进行中</text></view>
+      <view class="stat-card glass-card"><text class="stat-number orange">{{stats.newThisMonth}}</text><text class="stat-label">本月新增</text></view>
+      <view class="stat-card glass-card"><text class="stat-number green">{{stats.conversionRate}}%</text><text class="stat-label">转化率</text></view>
+    </view>
+    <view class="glass-card chart-section">
+      <text class="section-title">本周新增</text>
+      <view class="bar-chart">
+        <view class="bar-item" wx:for="{{weeklyData}}" wx:key="index">
+          <view class="bar-container"><view class="bar-fill" style="height: {{item.height}}%;"></view></view>
+          <text class="bar-label">{{item.day}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="glass-card industry-section">
+      <text class="section-title">行业分布</text>
+      <view class="industry-item" wx:for="{{industries}}" wx:key="index">
+        <view class="industry-header"><text class="industry-name">{{item.name}}</text><text class="industry-count">{{item.count}}个</text></view>
+        <view class="progress-bar-bg"><view class="progress-bar-fill" style="width: {{item.percent}}%; background: {{item.color}};"></view></view>
+        <text class="industry-percent">{{item.percent}}%</text>
+      </view>
+    </view>
+    <view class="glass-card pending-section">
+      <text class="section-title">待处理</text>
+      <view class="pending-item" wx:for="{{pendingItems}}" wx:key="index" bindtap="onPendingTap" data-url="{{item.url}}">
+        <view class="pending-info"><text class="pending-title">{{item.title}}</text><text class="pending-count">{{item.count}}项</text></view>
+      </view>
+    </view>
+    <view style="height: 80px;"></view>
+  </scroll-view>
+  <tab-bar type="opc" active="2" bind:tap="onTabTap"></tab-bar>
+</view>

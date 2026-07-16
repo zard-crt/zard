@@ -1,0 +1,54 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.tag-text {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.tag--blue {
+  background: rgba(0, 113, 227, 0.1);
+}
+
+.tag--blue .tag-text {
+  color: #0071E3;
+}
+
+.tag--green {
+  background: rgba(52, 199, 89, 0.1);
+}
+
+.tag--green .tag-text {
+  color: #34C759;
+}
+
+.tag--orange {
+  background: rgba(255, 159, 10, 0.1);
+}
+
+.tag--orange .tag-text {
+  color: #FF9F0A;
+}
+
+.tag--red {
+  background: rgba(255, 59, 48, 0.1);
+}
+
+.tag--red .tag-text {
+  color: #FF3B30;
+}
+
+.tag--gray {
+  background: rgba(142, 142, 147, 0.12);
+}
+
+.tag--gray .tag-text {
+  color: #8E8E93;
+}

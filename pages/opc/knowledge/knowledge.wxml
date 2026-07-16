@@ -1,0 +1,27 @@
+<view class="page knowledge">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="page-header"><text class="page-title">知识库</text><text class="page-subtitle">诊断方案与行业洞察</text></view>
+  <view class="search-bar"><input class="search-input" placeholder="搜索知识库内容" placeholder-class="placeholder" value="{{searchValue}}" bindinput="onSearchInput" /></view>
+  <scroll-view scroll-y="true" style="height: {{contentHeight}}px;">
+    <scroll-view class="category-chips" scroll-x="true" show-scrollbar="false">
+      <view wx:for="{{categories}}" wx:key="index" class="chip {{currentCategory === index ? 'active' : ''}}" bindtap="onCategoryTap" data-index="{{index}}"><text>{{item}}</text></view>
+    </scroll-view>
+    <view class="section-header"><text class="section-title">常用模板</text></view>
+    <scroll-view class="template-scroll" scroll-x="true" show-scrollbar="false">
+      <view class="template-card" wx:for="{{templates}}" wx:key="index" bindtap="onTemplateTap" data-id="{{item.id}}">
+        <view class="template-icon" style="background: {{item.iconBg}};"><text class="template-icon-text">{{item.icon}}</text></view>
+        <text class="template-name">{{item.name}}</text>
+        <text class="template-desc">{{item.description}}</text>
+      </view>
+    </scroll-view>
+    <view class="section-header" style="margin-top: 20px;"><text class="section-title">行业报告</text></view>
+    <view class="glass-card report-card" wx:for="{{reports}}" wx:key="index" bindtap="onReportTap" data-id="{{item.id}}">
+      <view class="report-header"><text class="report-title">{{item.title}}</text><text class="report-date">{{item.date}}</text></view>
+      <text class="report-desc">{{item.description}}</text>
+      <view class="report-meta"><text class="report-tag">{{item.category}}</text><text class="report-pages">{{item.pages}}页</text></view>
+    </view>
+    <view class="new-template-section"><button class="btn-primary" bindtap="onNewTemplate">+ 新建模板</button></view>
+    <view style="height: 80px;"></view>
+  </scroll-view>
+  <tab-bar type="opc" active="1" bind:tap="onTabTap"></tab-bar>
+</view>

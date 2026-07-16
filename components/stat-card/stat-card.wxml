@@ -1,0 +1,4 @@
+<view class="stat-card stat-card--{{type}}">
+  <text class="stat-value stat-value--{{type}}">{{value}}</text>
+  <text class="stat-label stat-label--{{type}}">{{label}}</text>
+</view>

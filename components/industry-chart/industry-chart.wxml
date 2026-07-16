@@ -1,0 +1,21 @@
+<view class="industry-chart industry-chart--{{type}}">
+  <view
+    wx:for="{{chartData}}"
+    wx:key="index"
+    class="chart-row"
+  >
+    <view class="chart-label">
+      <text class="chart-label-text">{{item.name}}</text>
+    </view>
+    <view class="chart-bar-track">
+      <view
+        class="chart-bar-fill chart-bar-fill--{{type}}"
+        style="width: {{item.percentage}}%"
+      >
+      </view>
+    </view>
+    <view class="chart-value">
+      <text class="chart-value-text">{{item.percentage}}%</text>
+    </view>
+  </view>
+</view>

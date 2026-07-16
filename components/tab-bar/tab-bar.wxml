@@ -1,0 +1,16 @@
+<view class="tab-bar tab-bar--{{type}}">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="index"
+    class="tab-item {{active === index ? 'tab-item--active' : ''}}"
+    data-tabindex="{{index}}"
+    bindtap="onTabTap"
+  >
+    <view class="tab-icon">
+      <svg class="tab-icon-svg" viewBox="0 0 24 24" width="22" height="22">
+        <path d="{{item.iconPath}}" fill="{{active === index ? activeColor : inactiveColor}}" />
+      </svg>
+    </view>
+    <text class="tab-label">{{item.label}}</text>
+  </view>
+</view>

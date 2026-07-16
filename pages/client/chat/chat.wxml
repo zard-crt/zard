@@ -1,0 +1,69 @@
+<!-- chat.wxml -->
+<view class="page">
+  <!-- Status bar spacer -->
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  
+  <!-- Nav bar -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="onBack">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path d="M15 18l-6-6 6-6" stroke="#0071E3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </view>
+    <text class="nav-title">AI诊断对话</text>
+    <view class="nav-placeholder"></view>
+  </view>
+  
+  <!-- Progress indicator -->
+  <view class="progress-indicator">
+    <text class="progress-label">第{{currentQuestion}}题/共{{totalQuestions}}题</text>
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{(currentQuestion / totalQuestions) * 100}}%;"></view>
+    </view>
+  </view>
+  
+  <!-- Message area -->
+  <scroll-view class="message-area" scroll-y="{{true}}" scroll-into-view="{{lastMsgId}}" scroll-with-animation="{{true}}" upper-threshold="50">
+    <view class="message-list">
+      <view class="message-item message-{{msg.type}}" wx:for="{{messages}}" wx:for-item="msg" wx:key="index" id="msg-{{index}}">
+        <!-- AI message -->
+        <block wx:if="{{msg.type === 'ai'}}">
+          <view class="ai-bubble">
+            <text class="ai-text">{{msg.content}}</text>
+          </view>
+          <view wx:if="{{msg.choices && msg.choices.length > 0}}" class="choice-group">
+            <view class="choice-btn" wx:for="{{msg.choices}}" wx:for-item="choice" wx:key="index" bindtap="onChoiceTap" data-value="{{choice.value}}">
+              <text class="choice-text">{{choice.label}}</text>
+            </view>
+          </view>
+        </block>
+        
+        <!-- User message -->
+        <block wx:elif="{{msg.type === 'user'}}">
+          <view class="user-bubble">
+            <text class="user-text">{{msg.content}}</text>
+          </view>
+        </block>
+        
+        <!-- System message -->
+        <block wx:elif="{{msg.type === 'system'}}">
+          <view class="system-msg">
+            <text class="system-text">{{msg.content}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+  
+  <!-- Bottom input bar -->
+  <view class="input-bar">
+    <view class="input-container">
+      <input class="chat-input" type="text" placeholder="输入你的回答..." placeholder-style="color: #86868B" value="{{inputValue}}" bindinput="onInputChange" bindconfirm="onSend" focus="{{inputFocused}}" />
+      <view class="send-btn {{inputValue.trim() ? 'send-active' : ''}}" bindtap="onSend">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="{{inputValue.trim() ? '#FFFFFF' : '#C7C7CC'}}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </view>
+    </view>
+  </view>
+</view>

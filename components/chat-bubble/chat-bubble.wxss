@@ -1,0 +1,113 @@
+.bubble-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  max-width: 85%;
+}
+
+.bubble-wrapper--ai {
+  align-items: flex-start;
+  align-self: flex-start;
+}
+
+.bubble-wrapper--user {
+  align-items: flex-end;
+  align-self: flex-end;
+}
+
+.bubble-container {
+  position: relative;
+  padding: 12px 14px;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.bubble-container--ai {
+  background: #F0F0F2;
+  border-radius: 14px 14px 14px 4px;
+}
+
+.bubble-container--user {
+  background: #0071E3;
+  border-radius: 14px 14px 4px 14px;
+}
+
+.bubble-arrow {
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+}
+
+.bubble-arrow--ai {
+  left: -4px;
+  background: #F0F0F2;
+  border-radius: 0 0 0 4px;
+}
+
+.bubble-arrow--user {
+  right: -4px;
+  background: #0071E3;
+  border-radius: 0 0 4px 0;
+}
+
+.bubble-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bubble-text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1D1D1F;
+  white-space: pre-wrap;
+}
+
+.bubble-container--user .bubble-text {
+  color: #FFFFFF;
+}
+
+.bubble-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.option-btn {
+  background: #FFFFFF;
+  border: 1px solid #E8E8ED;
+  border-radius: 20px;
+  padding: 8px 16px;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.option-btn:active {
+  background: #F5F5F7;
+  border-color: #0071E3;
+}
+
+.option-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+.bubble-time {
+  font-size: 11px;
+  color: #86868B;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+.bubble-wrapper--ai .bubble-time {
+  text-align: left;
+}
+
+.bubble-wrapper--user .bubble-time {
+  text-align: right;
+}

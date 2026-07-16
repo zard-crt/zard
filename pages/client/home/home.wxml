@@ -1,0 +1,110 @@
+<!-- home.wxml -->
+<view class="page">
+  <!-- Status bar spacer -->
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  
+  <!-- Title Section -->
+  <view class="title-section">
+    <text class="page-title">我的诊断</text>
+    <text class="page-subtitle">与团队一起发现效率提升机会</text>
+  </view>
+  
+  <!-- Main CTA Button -->
+  <view class="cta-section">
+    <view class="scan-btn" bindtap="onScan">
+      <view class="scan-btn-content">
+        <svg class="scan-icon" viewBox="0 0 24 24" width="22" height="22">
+          <path d="M3 8V5a2 2 0 0 1 2-2h3" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M16 3h3a2 2 0 0 1 2 2v3" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M21 16v3a2 2 0 0 1-2 2h-3" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M8 21H5a2 2 0 0 1-2-2v-3" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <line x1="7" y1="12" x2="17" y2="12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <text class="scan-btn-text">扫码加入</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- In Progress Projects Section -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">进行中的项目</text>
+      <text class="section-link" bindtap="onViewAll">查看全部</text>
+    </view>
+    
+    <!-- Projects List -->
+    <view wx:if="{{projects.length > 0}}" class="projects-list">
+      <view class="project-card" wx:for="{{projects}}" wx:for-item="project" wx:key="index" bindtap="onProjectTap" data-id="{{project.id}}">
+        <view class="project-row">
+          <view class="project-logo" style="background-color: {{project.color}};">
+            <text class="project-logo-text">{{project.logoText}}</text>
+          </view>
+          <view class="project-info">
+            <view class="project-name-row">
+              <text class="project-name">{{project.name}}</text>
+              <view class="status-tag status-{{project.statusClass}}">
+                <text class="status-text">{{project.status}}</text>
+              </view>
+            </view>
+            <view class="progress-section">
+              <view class="progress-bar-bg">
+                <view class="progress-bar-fill" style="width: {{project.progress}}%;"></view>
+              </view>
+              <text class="progress-text">{{project.progress}}%</text>
+            </view>
+            <view class="member-avatars">
+              <view class="avatar-circle" wx:for="{{project.members}}" wx:for-item="member" wx:key="index" style="z-index: {{10 - index}}; margin-left: {{index > 0 ? '-8px' : '0'}};">
+                <text class="avatar-text">{{member.initials}}</text>
+              </view>
+              <view wx:if="{{project.memberCount > 5}}" class="avatar-more">
+                <text class="avatar-text">+{{project.memberCount - 5}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- Empty State -->
+    <view wx:else class="empty-state">
+      <view class="empty-icon">
+        <svg viewBox="0 0 64 64" width="64" height="64">
+          <rect x="10" y="16" width="44" height="36" rx="4" stroke="#C7C7CC" stroke-width="2" fill="none"/>
+          <line x1="20" y1="28" x2="44" y2="28" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round"/>
+          <line x1="20" y1="36" x2="44" y2="36" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round"/>
+          <line x1="20" y1="44" x2="36" y2="44" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </view>
+      <text class="empty-title">还没有诊断项目</text>
+      <text class="empty-desc">扫码开始你的第一个诊断</text>
+      <view class="empty-scan-btn" bindtap="onScan">
+        <text class="empty-scan-text">扫码加入</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- Team Members Section -->
+  <view class="section">
+    <text class="section-title">团队成员</text>
+    <view class="member-row">
+      <view class="member-item" wx:for="{{displayMembers}}" wx:for-item="member" wx:key="index">
+        <view class="member-avatar-large" style="background-color: {{member.color}};">
+          <text class="member-initials">{{member.initials}}</text>
+        </view>
+        <text class="member-name">{{member.name}}</text>
+      </view>
+      <view wx:if="{{members.length > 5}}" class="member-item">
+        <view class="member-avatar-large member-more">
+          <text class="member-initials">+{{members.length - 5}}</text>
+        </view>
+        <text class="member-name">更多</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- Tab bar spacer -->
+  <view class="tabbar-spacer" style="height: {{tabBarHeight}}px;"></view>
+</view>
+
+<!-- Tab bar component -->
+<tab-bar type="client" active="0" bind:tap="onTabTap"></tab-bar>

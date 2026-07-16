@@ -1,0 +1,29 @@
+.page.dashboard { min-height: 100vh; background: #1D1D1F; }
+.page-header { padding: 0 20px; margin-top: 12px; margin-bottom: 20px; }
+.page-title { font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.85); display: block; line-height: 34px; }
+.page-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+.glass-card { background: rgba(30,30,32,0.65); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; margin: 0 20px 12px; }
+.stat-row { display: flex; gap: 10px; padding: 0 20px; margin-bottom: 12px; }
+.stat-card { flex: 1; text-align: center; margin: 0; }
+.stat-number { font-size: 28px; font-weight: 800; color: rgba(255,255,255,0.85); display: block; line-height: 34px; }
+.stat-number.orange { color: #FF9F0A; }
+.stat-number.green { color: #34C759; }
+.stat-label { font-size: 12px; color: rgba(255,255,255,0.4); display: block; margin-top: 4px; }
+.section-title { font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.85); display: block; margin-bottom: 16px; }
+.bar-chart { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 4px; }
+.bar-item { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.bar-container { width: 24px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 12px; position: relative; overflow: hidden; }
+.bar-fill { position: absolute; bottom: 0; width: 100%; background: linear-gradient(180deg, #FF9F0A, #FFB340); border-radius: 12px; }
+.bar-label { font-size: 11px; color: rgba(255,255,255,0.4); }
+.industry-item { margin-bottom: 12px; }
+.industry-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.industry-name { font-size: 13px; color: rgba(255,255,255,0.7); }
+.industry-count { font-size: 12px; color: rgba(255,255,255,0.4); }
+.progress-bar-bg { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+.progress-bar-fill { height: 100%; border-radius: 2px; }
+.industry-percent { font-size: 10px; color: rgba(255,255,255,0.3); display: block; text-align: right; }
+.pending-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.pending-item:last-child { border-bottom: none; }
+.pending-info { display: flex; align-items: center; gap: 8px; }
+.pending-title { font-size: 14px; color: rgba(255,255,255,0.85); }
+.pending-count { font-size: 14px; font-weight: 700; color: #FF9F0A; }

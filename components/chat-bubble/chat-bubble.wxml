@@ -1,0 +1,20 @@
+<view class="bubble-wrapper bubble-wrapper--{{type}}">
+  <view class="bubble-container bubble-container--{{type}}">
+    <view class="bubble-arrow bubble-arrow--{{type}}"></view>
+    <view class="bubble-content">
+      <view class="bubble-text">{{content}}</view>
+      <view wx:if="{{type === 'ai' && options && options.length > 0}}" class="bubble-options">
+        <view
+          wx:for="{{options}}"
+          wx:key="index"
+          class="option-btn"
+          data-value="{{item}}"
+          bindtap="onOptionTap"
+        >
+          <text class="option-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <text wx:if="{{time}}" class="bubble-time">{{time}}</text>
+</view>
